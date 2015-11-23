@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UberDeployer.CommonConfigur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UberDeployer.ConsoleCommander", "UberDeployer.ConsoleCommander\UberDeployer.ConsoleCommander.csproj", "{9FD59C63-52EF-40D1-8341-1ED7F24605A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectDepsVisualizer", "ProjectDepsVisualizer\ProjectDepsVisualizer.csproj", "{C223DA00-7413-4BEE-B4A3-272E8E02CC45}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UberDeployer.Agent.Service", "UberDeployer.Agent.Service\UberDeployer.Agent.Service.csproj", "{31B1E1BD-5D9D-4156-99D7-EDE0E662CCC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UberDeployer.Agent.NtService", "UberDeployer.Agent.NtService\UberDeployer.Agent.NtService.csproj", "{99E92304-7E2D-40FB-B656-4915BEE02EC1}"
@@ -53,10 +51,6 @@ Global
 		{9FD59C63-52EF-40D1-8341-1ED7F24605A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FD59C63-52EF-40D1-8341-1ED7F24605A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FD59C63-52EF-40D1-8341-1ED7F24605A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C223DA00-7413-4BEE-B4A3-272E8E02CC45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C223DA00-7413-4BEE-B4A3-272E8E02CC45}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C223DA00-7413-4BEE-B4A3-272E8E02CC45}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C223DA00-7413-4BEE-B4A3-272E8E02CC45}.Release|Any CPU.Build.0 = Release|Any CPU
 		{31B1E1BD-5D9D-4156-99D7-EDE0E662CCC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{31B1E1BD-5D9D-4156-99D7-EDE0E662CCC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31B1E1BD-5D9D-4156-99D7-EDE0E662CCC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
