@@ -1,5 +1,5 @@
 ﻿using UberDeployer.CommonConfiguration;
-using UberDeployer.ConsoleCommander;
+using UberDeployer.ConsoleApp.Commander;
 using UberDeployer.Core.Domain;
 using UberDeployer.Core.TeamCity;
 using UberDeployer.Core.TeamCity.Models;
