@@ -7,7 +7,7 @@ using Moq;
 
 using NUnit.Framework;
 
-using UberDeployer.Core.DbDiff;
+using UberDeployer.Core.DataAccess;
 using UberDeployer.Core.Deployment;
 using UberDeployer.Core.Deployment.Steps;
 using UberDeployer.Core.Deployment.Tasks;

@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using log4net;
 using UberDeployer.Common;
 using UberDeployer.Common.SyntaxSugar;
-using UberDeployer.Core.DbDiff;
+using UberDeployer.Core.DataAccess;
 using UberDeployer.Core.Domain;
 using UberDeployer.Core.Management.Db;
 
