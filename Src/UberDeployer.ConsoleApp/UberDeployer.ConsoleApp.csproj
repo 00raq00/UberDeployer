@@ -37,9 +37,6 @@
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\..\Lib\MsWebDeploy\msdeploy.exe</HintPath>
     </Reference>
-    <Reference Include="NHibernate.ByteCode.Castle">
-      <HintPath>..\..\Lib\NHibernate\NHibernate.ByteCode.Castle.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
