@@ -1,8 +1,10 @@
 ﻿using System;
+
 using AutoMapper;
-using UberDeployer.Agent.Proxy.Dto.Input;
+
 using UberDeployer.Common.SyntaxSugar;
 using UberDeployer.Core.Domain.Input;
+
 using ExtensionInputParams = UberDeployer.Core.Domain.Input.ExtensionInputParams;
 
 namespace UberDeployer.Agent.Service
@@ -39,9 +41,9 @@ namespace UberDeployer.Agent.Service
       Mapper.CreateMap<Core.Domain.EnvironmentInfo, Proxy.Dto.EnvironmentInfo>();
 
       Mapper.CreateMap<Core.Domain.EnvironmentUser, Proxy.Dto.EnvironmentUser>();
-      
+
       Mapper.CreateMap<Core.Domain.SchedulerAppTask, Proxy.Dto.SchedulerAppTask>();
-      
+
       Mapper.CreateMap<Core.Domain.Repetition, Proxy.Dto.Repetition>();
 
       Mapper.CreateMap<Core.Domain.ProjectToFailoverClusterGroupMapping, Proxy.Dto.ProjectToFailoverClusterGroupMapping>();
@@ -55,7 +57,7 @@ namespace UberDeployer.Agent.Service
       Mapper.CreateMap<Core.Deployment.DiagnosticMessageType, Proxy.Dto.DiagnosticMessageType>();
 
       Mapper.CreateMap<Proxy.Dto.DbScriptsToRunSelection, Core.Deployment.DbScriptsToRunSelection>();
-      
+
       Mapper.CreateMap<Core.TeamCity.ApiModels.TeamCityBuildTypeBranch, Proxy.Dto.TeamCity.ProjectConfigurationBranch>();
       Mapper.CreateMap<Core.TeamCity.ApiModels.TeamCityBuildType, Proxy.Dto.TeamCity.ProjectConfiguration>();
       Mapper.CreateMap<Core.TeamCity.ApiModels.TeamCityBuild, Proxy.Dto.TeamCity.ProjectConfigurationBuild>();
@@ -73,7 +75,7 @@ namespace UberDeployer.Agent.Service
     //TODO MARIO move to other converter?
     public static Core.Domain.DeploymentInfo ConvertDeploymentInfo(Proxy.Dto.DeploymentInfo deploymentInfo, Core.Domain.ProjectInfo projectInfo)
     {
-      Core.Domain.Input.InputParams inputParams = ConvertInputParams(deploymentInfo.InputParams);
+      InputParams inputParams = ConvertInputParams(deploymentInfo.InputParams);
 
       return
         new Core.Domain.DeploymentInfo(
@@ -86,7 +88,7 @@ namespace UberDeployer.Agent.Service
           inputParams);
     }
 
-    private static Core.Domain.Input.InputParams ConvertInputParams(Proxy.Dto.Input.InputParams inputParams)
+    private static InputParams ConvertInputParams(Proxy.Dto.Input.InputParams inputParams)
     {
       Guard.NotNull(inputParams, "inputParams");
 
@@ -94,28 +96,28 @@ namespace UberDeployer.Agent.Service
 
       if (dbInputParams != null)
       {
-        return new Core.Domain.Input.DbInputParams();
+        return new DbInputParams();
       }
 
       var ntServiceInputParams = inputParams as Proxy.Dto.Input.NtServiceInputParams;
 
       if (ntServiceInputParams != null)
       {
-        return new Core.Domain.Input.NtServiceInputParams();
+        return new NtServiceInputParams();
       }
 
       var schedulerAppInputParams = inputParams as Proxy.Dto.Input.SchedulerAppInputParams;
 
       if (schedulerAppInputParams != null)
       {
-        return new Core.Domain.Input.SchedulerAppInputParams();
+        return new SchedulerAppInputParams();
       }
 
       var terminalAppInputParams = inputParams as Proxy.Dto.Input.TerminalAppInputParams;
 
       if (terminalAppInputParams != null)
       {
-        return new Core.Domain.Input.TerminalAppInputParams();
+        return new TerminalAppInputParams();
       }
 
       var webAppInputParams = inputParams as Proxy.Dto.Input.WebAppInputParams;
@@ -123,7 +125,7 @@ namespace UberDeployer.Agent.Service
       if (webAppInputParams != null)
       {
         return
-          new Core.Domain.Input.WebAppInputParams(
+          new WebAppInputParams(
             webAppInputParams.OnlyIncludedWebMachines);
       }
 
@@ -131,14 +133,14 @@ namespace UberDeployer.Agent.Service
 
       if (webServiceInputParams != null)
       {
-        return new Core.Domain.Input.WebServiceInputParams();
+        return new WebServiceInputParams();
       }
 
       var extensionInputParams = inputParams as Proxy.Dto.Input.ExtensionInputParams;
 
       if (extensionInputParams != null)
       {
-        return new ExtensionInputParams();  
+        return new ExtensionInputParams();
       }
 
       var powerShellScriptInputParams = inputParams as Proxy.Dto.Input.PowerShellScriptInputParams;

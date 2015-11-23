@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-using UberDeployer.Core.DbDiff;
+using UberDeployer.Core.DataAccess;
 
 namespace UberDeployer.Tests.DbDiff
 {

@@ -1,5 +1,0 @@
-﻿{
-  "TargetEnvironment": "Local",
-  "ProjectsToDeploy": [ "Sample.Database", "Sample.Service" ] 
-}
-

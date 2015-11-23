@@ -4,7 +4,7 @@ using System.Security.Principal;
 using log4net;
 using UberDeployer.Common;
 using UberDeployer.CommonConfiguration;
-using UberDeployer.ConsoleCommander;
+using UberDeployer.ConsoleApp.Commander;
 using UberDeployer.Core.Deployment;
 using UberDeployer.Core.Deployment.Pipeline;
 using UberDeployer.Core.Deployment.Tasks;

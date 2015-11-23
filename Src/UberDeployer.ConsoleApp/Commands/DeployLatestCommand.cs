@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Security.Principal;
 using UberDeployer.CommonConfiguration;
-using UberDeployer.ConsoleCommander;
+using UberDeployer.ConsoleApp.Commander;
 using UberDeployer.Core.Deployment;
 using UberDeployer.Core.Deployment.Pipeline;
 using UberDeployer.Core.Deployment.Tasks;

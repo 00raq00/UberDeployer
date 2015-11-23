@@ -40,11 +40,17 @@
     <Reference Include="FailoverClusters.ObjectModel.Resources">
       <HintPath>..\..\Lib\FailoverClusters\FailoverClusters.ObjectModel.Resources.dll</HintPath>
     </Reference>
-    <Reference Include="FluentNHibernate">
-      <HintPath>..\..\Lib\NHibernate\FluentNHibernate.dll</HintPath>
+    <Reference Include="FluentNHibernate, Version=1.4.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentNHibernate.1.4.0.0\lib\net35\FluentNHibernate.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\..\Lib\DotNetZip\Ionic.Zip.dll</HintPath>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -60,11 +66,13 @@
     <Reference Include="Microsoft.Win32.TaskScheduler">
       <HintPath>..\..\Lib\TaskScheduler\Microsoft.Win32.TaskScheduler.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\Lib\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="NHibernate">
-      <HintPath>..\..\Lib\NHibernate\NHibernate.dll</HintPath>
+    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
@@ -87,6 +95,8 @@
   <ItemGroup>
     <Compile Include="Configuration\IApplicationConfigurationRepository.cs" />
     <Compile Include="DataAccess\Dapper\SqlMapper.cs" />
+    <Compile Include="DataAccess\DbVersion.cs" />
+    <Compile Include="DataAccess\DbVersionsModel.cs" />
     <Compile Include="DataAccess\WebClient\IInternalApiWebClient.cs" />
     <Compile Include="DataAccess\WebClient\InternalApiWebClient.cs" />
     <Compile Include="DataAccess\Xml\ApplicationConfigurationXml.cs" />
@@ -339,10 +349,6 @@
     <ProjectReference Include="..\UberDeployer.Common\UberDeployer.Common.csproj">
       <Project>{256FF6D7-F1B8-43E7-97CA-7A63455C0BE6}</Project>
       <Name>UberDeployer.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UberDeployer.Core.DbDiff\UberDeployer.Core.DbDiff.csproj">
-      <Project>{42554C30-1E25-4ABC-814C-A4B624713212}</Project>
-      <Name>UberDeployer.Core.DbDiff</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

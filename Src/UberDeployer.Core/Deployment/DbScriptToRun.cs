@@ -1,12 +1,13 @@
 using System.IO;
 
+using UberDeployer.Core.DataAccess;
+
 namespace UberDeployer.Core.Deployment
 {
   using System.Linq;
   using System.Text.RegularExpressions;
 
   using UberDeployer.Common.SyntaxSugar;
-  using UberDeployer.Core.DbDiff;
 
   public class DbScriptToRun
   {

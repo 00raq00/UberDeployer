@@ -169,6 +169,7 @@ namespace UberDeployer.Core.TeamCity
 
     private JObject ExecuteRequest(string requestPath)
     {
+      // TODO LK: handle http errors (especially 404)
       string requestUrl = CreateRequestUrl(requestPath);
 
       string response;
