@@ -87,7 +87,7 @@
     <SuppressTSqlWarnings />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>.\sql\debug\</OutputPath>
+    <OutputPath>..\..\bin\UberDeployer.Database\</OutputPath>
     <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
     <TargetDatabase>
     </TargetDatabase>
@@ -99,14 +99,21 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="Scripts" />
+    <Folder Include="Schema Upgrades" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="Schema Upgrades\1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <BuildContributorArgument Include="OutDir=$(OutDir)" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\001_Create_DeploymentRequest_table.sql">
-      <SubType>NotInBuild</SubType>
+    <Build Include="dbo\Tables\DeploymentRequest.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Schema Upgrades\1.0.0\1.0.0.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="HowTo.txt" />
   </ItemGroup>
 </Project>
