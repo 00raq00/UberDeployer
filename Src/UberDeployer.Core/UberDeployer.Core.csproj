@@ -103,6 +103,7 @@
     <Compile Include="DataAccess\Xml\ProjectInfos\ProjectInfoXml.cs" />
     <Compile Include="DataAccess\Xml\ProjectInfos\ProjectInfosXml.cs" />
     <Compile Include="DataAccess\Xml\XmlApplicationConfigurationRepository.cs" />
+    <Compile Include="Deployment\DiagnosticMessageGroupEventArgs.cs" />
     <Compile Include="Deployment\IUserNameNormalizer.cs" />
     <Compile Include="Deployment\Pipeline\EnvDeploymentPipeline.cs" />
     <Compile Include="Deployment\Pipeline\IEnvDeploymentPipeline.cs" />

@@ -9,6 +9,8 @@ namespace UberDeployer.Agent.Service.Diagnostics
   public class InMemoryDiagnosticMessagesLogger : IDiagnosticMessagesLogger
   {
     private readonly Dictionary<Guid, List<DiagnosticMessage>> _diagnosticMessagesByClientId;
+
+    private readonly Dictionary<Guid, string> _messageGroupByClientId;
     
     private long _prevMessageId;
 
@@ -20,6 +22,7 @@ namespace UberDeployer.Agent.Service.Diagnostics
     private InMemoryDiagnosticMessagesLogger()
     {
       _diagnosticMessagesByClientId = new Dictionary<Guid, List<DiagnosticMessage>>();
+      _messageGroupByClientId = new Dictionary<Guid, string>();
     }
 
     #endregion
@@ -50,12 +53,29 @@ namespace UberDeployer.Agent.Service.Diagnostics
 
         long messageId = ++_prevMessageId;
 
+        string groupName;
+        _messageGroupByClientId.TryGetValue(uniqueClientId, out groupName);
+
         diagnosticMessages.Add(
           new DiagnosticMessage(
             messageId,
             DateTime.UtcNow,
             messageType,
-            message));
+            message,
+            groupName));
+      }
+    }
+
+    public void OpenLogGroup(Guid uniqueClientId, string groupId)
+    {
+      _messageGroupByClientId[uniqueClientId] = groupId;
+    }
+
+    public void CloseLogGroup(Guid uniqueClientId)
+    {
+      if (_messageGroupByClientId.ContainsKey(uniqueClientId))
+      {
+        _messageGroupByClientId.Remove(uniqueClientId);
       }
     }
 

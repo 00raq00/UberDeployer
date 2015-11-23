@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Utils;
 using UberDeployer.Common.SyntaxSugar;
 using UberDeployer.Core.Deployment.Tasks;
 using UberDeployer.Core.Domain;
@@ -11,6 +10,10 @@ namespace UberDeployer.Core.Deployment.Pipeline
   public class EnvDeploymentPipeline : IEnvDeploymentPipeline
   {
     public event EventHandler<DiagnosticMessageEventArgs> DiagnosticMessagePosted;
+    
+    public event EventHandler<DiagnosticMessageGroupEventArgs> DiagnosticMessageGroupOpened;
+
+    public event EventHandler DiagnosticMessageGroupClosed;
 
     private readonly List<IDeploymentPipelineModule> _modules;
 
@@ -49,6 +52,8 @@ namespace UberDeployer.Core.Deployment.Pipeline
 
       foreach (var projectDeployment in projectDeployments)
       {
+        OpenDiagnosticMessageGroup(projectDeployment.ProjectInfo.Name);
+
         var isPrepared = PrepareProject(projectDeployment, deploymentContext);
 
         if (isPrepared == false)
@@ -62,6 +67,8 @@ namespace UberDeployer.Core.Deployment.Pipeline
         {
           successfullyDeployed++;
         }
+
+        CloseDiagnosticMessageGroup();
       }
 
       deploymentContext.DateFinished = DateTime.UtcNow;
@@ -164,13 +171,39 @@ namespace UberDeployer.Core.Deployment.Pipeline
       OnDiagnosticMessagePosted(this, new DiagnosticMessageEventArgs(diagnosticMessageType, message));
     }
 
+    protected void OpenDiagnosticMessageGroup(string groupName)
+    {
+      Guard.NotNullNorEmpty(groupName, "groupName");
+
+      OnDiagnosticMessageGroupOpened(this, new DiagnosticMessageGroupEventArgs(groupName));
+    }
+
+    protected void CloseDiagnosticMessageGroup()
+    {
+      OnDiagnosticMessageGroupClosed(this);
+    }
+
+    protected void OnDiagnosticMessageGroupClosed(object sender)
+    {
+      if (DiagnosticMessageGroupClosed != null)
+      {
+        DiagnosticMessageGroupClosed(sender, null);
+      }
+    }
+
+    protected void OnDiagnosticMessageGroupOpened(object sender, DiagnosticMessageGroupEventArgs diagnosticMessageGroupEventArgs)
+    {
+      if (DiagnosticMessageGroupOpened != null)
+      {
+        DiagnosticMessageGroupOpened(sender, diagnosticMessageGroupEventArgs);
+      }
+    }
+
     protected void OnDiagnosticMessagePosted(object sender, DiagnosticMessageEventArgs diagnosticMessageEventArgs)
     {
-      var eventHandler = DiagnosticMessagePosted;
-
-      if (eventHandler != null)
+      if (DiagnosticMessagePosted != null)
       {
-        eventHandler(sender, diagnosticMessageEventArgs);
+        DiagnosticMessagePosted(sender, diagnosticMessageEventArgs);
       }
     }
 
