@@ -425,6 +425,10 @@ select,
   margin-bottom: 10px;
   background: #ffffff;
 }
+.log-msg {
+  font-family: Consolas;
+  font-size: 12px;
+}
 .log-msg-trace {
   color: #999;
 }

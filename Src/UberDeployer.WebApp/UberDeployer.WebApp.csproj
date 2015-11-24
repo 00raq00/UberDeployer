@@ -135,6 +135,9 @@
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\tmp2.pubxml" />
+    <Content Include="Static\css\bootstrap-helpers.css.map">
+      <DependentUpon>bootstrap-helpers.css</DependentUpon>
+    </Content>
     <None Include="Static\css\bootstrap-helpers.less" />
     <Content Include="Static\css\bootstrap-helpers.css">
       <DependentUpon>bootstrap-helpers.less</DependentUpon>
@@ -160,6 +163,18 @@
     </Content>
     <Content Include="Static\css\site.css.map">
       <DependentUpon>site.css</DependentUpon>
+    </Content>
+    <Content Include="Static\plugins\fontawesome\css\font-awesome.css.map">
+      <DependentUpon>font-awesome.css</DependentUpon>
+    </Content>
+    <Content Include="Static\css\sidebar.css.map">
+      <DependentUpon>sidebar.css</DependentUpon>
+    </Content>
+    <Content Include="Static\css\fonts.css.map">
+      <DependentUpon>fonts.css</DependentUpon>
+    </Content>
+    <Content Include="Static\plugins\bootstrap\css\bootstrap.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
     <None Include="Static\plugins\fontawesome\css\font-awesome.less" />
     <Content Include="Static\plugins\fontawesome\css\font-awesome.css">
@@ -246,6 +261,12 @@
     <Content Include="Static\css\site.css">
       <DependentUpon>site.less</DependentUpon>
     </Content>
+    <Content Include="Static\plugins\treegrid\css\jquery.treegrid.css" />
+    <Content Include="Static\plugins\treegrid\img\collapse.png" />
+    <Content Include="Static\plugins\treegrid\img\expand.png" />
+    <Content Include="Static\plugins\treegrid\img\file.png" />
+    <Content Include="Static\plugins\treegrid\img\folder.png" />
+    <Content Include="Static\plugins\treegrid\js\jquery.treegrid.min.js" />
     <Content Include="Static\site.js" />
     <Content Include="Static\plugins\jquery\jquery.js" />
     <None Include="Static\css\site.less" />
@@ -269,6 +290,9 @@
     <Content Include="Views\Deployment\Popups\DeployArtifactsToLocation.cshtml" />
     <Content Include="Views\Deployment\Popups\CollectDependencies.cshtml" />
     <Content Include="Views\EnvDeployment\Popups\ConfirmRestore.cshtml" />
+    <Content Include="Static\plugins\toastr\toastr.css.map">
+      <DependentUpon>toastr.css</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UberDeployer.Agent.Proxy\UberDeployer.Agent.Proxy.csproj">

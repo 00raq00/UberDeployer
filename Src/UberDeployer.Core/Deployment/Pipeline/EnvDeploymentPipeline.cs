@@ -54,6 +54,8 @@ namespace UberDeployer.Core.Deployment.Pipeline
       {
         OpenDiagnosticMessageGroup(projectDeployment.ProjectInfo.Name);
 
+        PostDiagnosticMessage(string.Format("Deploy project: {0}", projectDeployment.ProjectInfo.Name), DiagnosticMessageType.Info);
+
         var isPrepared = PrepareProject(projectDeployment, deploymentContext);
 
         if (isPrepared == false)
