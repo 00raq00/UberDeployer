@@ -18,9 +18,9 @@ namespace UberDeployer.Tests.Core.Deployment
     {
       const string machineName = "machine";
 
-      var ntServiceDescriptor = new Mock<NtServiceDescriptor>(MockBehavior.Strict);
+      var ntServiceDescriptor = new Mock<NtServiceDescriptor>(MockBehavior.Strict, "serviceName", "serviceExecutableClass", ServiceAccount.LocalService, ServiceStartMode.Automatic, "displayName", "userName", "password");
 
-      Assert.Throws<ArgumentException>(
+      Assert.Throws<ArgumentNullException>(
         () =>
         { new InstallNtServiceDeploymentStep(null, machineName, ntServiceDescriptor.Object); });
     }
