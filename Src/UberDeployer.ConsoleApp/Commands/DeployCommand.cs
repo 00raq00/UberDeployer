@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Reflection;
 using System.Security.Principal;
+
 using log4net;
+
 using UberDeployer.Common;
 using UberDeployer.CommonConfiguration;
 using UberDeployer.ConsoleApp.Commander;
@@ -32,7 +34,7 @@ namespace UberDeployer.ConsoleApp.Commands
 
       IProjectInfoRepository projectInfoRepository =
         ObjectFactory.Instance.CreateProjectInfoRepository();
-      
+
       string projectName = args[0];
       string projectConfigurationName = args[1];
       string projectConfigurationBuildId = args[2];
@@ -91,12 +93,35 @@ namespace UberDeployer.ConsoleApp.Commands
 
     protected void LogMessage(string message, DiagnosticMessageType messageType)
     {
-      _log.DebugIfEnabled(() => string.Format("{0}: {1}", messageType, message));
+      switch (messageType)
+      {
+        case DiagnosticMessageType.Trace:
+          _log.TraceIfEnabled(() => message);
+          break;
+
+        case DiagnosticMessageType.Info:
+          _log.InfoIfEnabled(() => message);
+          break;
+
+        case DiagnosticMessageType.Warn:
+          _log.WarnIfEnabled(() => message);
+          break;
+
+        case DiagnosticMessageType.Error:
+          _log.ErrorIfEnabled(() => message);
+          break;
+
+        default:
+          throw new ArgumentOutOfRangeException("messageType", messageType, null);
+      }
     }
 
     public override string CommandName
     {
-      get { return "deploy"; }
+      get
+      {
+        return "deploy";
+      }
     }
 
     private static string RequesterIdentity

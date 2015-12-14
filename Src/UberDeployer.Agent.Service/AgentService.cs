@@ -16,11 +16,9 @@ using UberDeployer.Common;
 using UberDeployer.Common.SyntaxSugar;
 using UberDeployer.CommonConfiguration;
 using UberDeployer.Core.Configuration;
-using UberDeployer.Core.DataAccess.WebClient;
 using UberDeployer.Core.Deployment;
 using UberDeployer.Core.Deployment.Pipeline;
 using UberDeployer.Core.Deployment.Pipeline.Modules;
-using UberDeployer.Core.Deployment.Steps;
 using UberDeployer.Core.Deployment.Tasks;
 using UberDeployer.Core.Domain;
 using UberDeployer.Core.Domain.Input;
@@ -38,7 +36,6 @@ using DiagnosticMessage = UberDeployer.Core.Deployment.DiagnosticMessage;
 using DiagnosticMessageType = UberDeployer.Core.Deployment.DiagnosticMessageType;
 using EnvironmentInfo = UberDeployer.Core.Domain.EnvironmentInfo;
 using MachineSpecificProjectVersion = UberDeployer.Agent.Proxy.Dto.Metadata.MachineSpecificProjectVersion;
-using Project = UberDeployer.Core.TeamCity.Models.Project;
 using ProjectInfo = UberDeployer.Core.Domain.ProjectInfo;
 using ProjectType = UberDeployer.Core.Domain.ProjectType;
 using UberDeployerAgentProjectInfo = UberDeployer.Core.Domain.UberDeployerAgentProjectInfo;
@@ -694,19 +691,6 @@ namespace UberDeployer.Agent.Service
       return environmentDeployInfo.ProjectsToDeploy;
     }
 
-    private void HandleDeploymentException(Exception exception, Guid uniqueClientId)
-    {
-      const string errorMessage = "Unhandled exception.";
-
-      _diagnosticMessagesLogger
-        .LogMessage(
-          uniqueClientId,
-          DiagnosticMessageType.Error,
-          string.Format("{0}{1}", errorMessage, (exception != null ? Environment.NewLine + exception : " (no exception info)")));
-
-      _log.ErrorIfEnabled(() => errorMessage, exception);
-    }    
-
     private void DoDeploy(Guid uniqueClientId, string requesterIdentity, Core.Domain.DeploymentInfo deploymentInfo, ProjectInfo projectInfo)
     {
       DeploymentTask deploymentTask = projectInfo.CreateDeploymentTask(ObjectFactory.Instance);
@@ -771,9 +755,42 @@ namespace UberDeployer.Agent.Service
       }
     }
 
+    private void HandleDeploymentException(Exception exception, Guid uniqueClientId)
+    {
+      const string errorMessage = "Unhandled exception.";
+
+      _diagnosticMessagesLogger
+        .LogMessage(
+          uniqueClientId,
+          DiagnosticMessageType.Error,
+          string.Format("{0}{1}", errorMessage, (exception != null ? Environment.NewLine + exception : " (no exception info)")));
+
+      _log.ErrorIfEnabled(() => errorMessage, exception);
+    }
+
     private void LogMessage(Guid uniqueClientId, DiagnosticMessageType messageType, string message)
     {
-      _log.DebugIfEnabled(() => string.Format("{0}: {1}", messageType, message));
+      switch (messageType)
+      {
+        case DiagnosticMessageType.Trace:
+          _log.TraceIfEnabled(() => message);
+          break;
+
+        case DiagnosticMessageType.Info:
+          _log.InfoIfEnabled(() => message);
+          break;
+
+        case DiagnosticMessageType.Warn:
+          _log.WarnIfEnabled(() => message);
+          break;
+
+        case DiagnosticMessageType.Error:
+          _log.ErrorIfEnabled(() => message);
+          break;
+
+        default:
+          throw new ArgumentOutOfRangeException("messageType", messageType, null);
+      }
 
       _diagnosticMessagesLogger.LogMessage(uniqueClientId, messageType, message);
     }
