@@ -44,7 +44,7 @@ namespace UberDeployer.ConsoleApp.Commander
 
       IEnumerable<Type> consoleCommandTypes =
         assembly.GetTypes()
-          .Where(t => typeof(ConsoleCommand).IsAssignableFrom(t));
+          .Where(t => typeof(ConsoleCommand).IsAssignableFrom(t)).Where(x => x.Name != typeof(ConsoleCommand).Name);
 
       foreach (Type consoleCommandType in consoleCommandTypes)
       {
