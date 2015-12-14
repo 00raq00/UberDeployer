@@ -122,59 +122,19 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\ApplicationConfiguration.xml">
+    <Content Include="..\..\Data\ApplicationConfiguration.xml">
       <Link>Data\ApplicationConfiguration.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\EnvironmentInfo_demo.xml">
-      <Link>Data\EnvironmentInfo_demo.xml</Link>
+    <Content Include="..\..\Data\EnvironmentInfo_Local.xml">
+      <Link>Data\EnvironmentInfo_Local.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\EnvironmentInfo_dev1.xml">
-      <Link>Data\EnvironmentInfo_dev1.xml</Link>
+    <Content Include="..\..\Data\EnvironmentInfo_Remote.xml">
+      <Link>Data\EnvironmentInfo_Remote.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\EnvironmentInfo_dev2.xml">
-      <Link>Data\EnvironmentInfo_dev2.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\EnvironmentInfo_dev3.xml">
-      <Link>Data\EnvironmentInfo_dev3.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\EnvironmentInfo_dev4.xml">
-      <Link>Data\EnvironmentInfo_dev4.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\EnvironmentInfo_dev5.xml">
-      <Link>Data\EnvironmentInfo_dev5.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\EnvironmentInfo_dev6.xml">
-      <Link>Data\EnvironmentInfo_dev6.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\EnvironmentInfo_dev7.xml">
-      <Link>Data\EnvironmentInfo_dev7.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\EnvironmentInfo_dev8.xml">
-      <Link>Data\EnvironmentInfo_dev8.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\EnvironmentInfo_epsilon.xml">
-      <Link>Data\EnvironmentInfo_epsilon.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\EnvironmentInfo_prod.xml">
-      <Link>Data\EnvironmentInfo_prod.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\EnvironmentInfo_test.xml">
-      <Link>Data\EnvironmentInfo_test.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\UberDeployer_TestData\Data\ProjectInfos.xml">
+    <Content Include="..\..\Data\ProjectInfos.xml">
       <Link>Data\ProjectInfos.xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
