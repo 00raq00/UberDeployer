@@ -1,0 +1,37 @@
+﻿<div id="dlg-collect-dependencies" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="package-dir-modal-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="dlg-collect-dependencies-label">Dependencies of project is being deployed.</h3>
+      </div>
+      <div class="modal-body">
+        <div class="form-horizontal" id="dlg-collect-dependencies-form">
+          <div class="form-group" style="max-height: 500px; overflow-y: auto;">
+            <div class="col-sm-12">
+              <div>
+                <div class="row">
+                  <div class="col-sm-7">
+                    <input type="checkbox" id="dlg-collect-dependencies-checkbox-all" name="dlg-collect-dependencies-checkbox-all" checked="checked">Project Name
+                  </div>
+                  <div class="col-sm-3">
+                    Branch
+                  </div>
+                  <div class="col-sm-2">
+                    Build
+                  </div>
+                </div>
+              </div>
+              <div id="dlg-collect-dependencies-grid" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="dlg-collect-dependencies-ok" class="btn btn-primary">OK</button>
+        <button id="dlg-collect-dependencies-skip" class="btn btn-warning">Skip dependencies</button>
+        <button id="dlg-collect-dependencies-cancel" class="btn">Cancel</button>
+      </div>
+      <input type="hidden" id="dlg-collect-dependencies-deployment-id" name="dlg-collect-dependencies-deployment-id" value="" />
+    </div>
+  </div>
+</div>

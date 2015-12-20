@@ -1,0 +1,107 @@
+﻿@model UberDeployer.WebApp2.Core.Models.EnvDeploy.EnvDeployViewModel
+@{
+  ViewBag.Title = "Deploy All | ÜberDeployer";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content-title">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Environment Deployment</h1>
+    </div>
+  </div>
+</div>
+<div class="dispage-content inset">
+  <div class="row">
+    <div id="errorMsg" class="alert alert-error" style="display: none;">
+    </div>
+  </div>
+  <div id="main-container">
+    <div class="row">
+      <div class="col-md-6">
+
+        <label for="lst-environments" class="lst-header">Target environment:</label>
+        <select id="lst-environments" size="7"></select>
+
+        <button type="button" id="btn-deployEnv" name="btn-deployEnv" class="flat-butt flat-primary-butt flat-butt-full-width">
+          <i class="fa fa-cloud-upload"></i> Deploy Environment!
+        </button>
+      </div>    
+      <div class="col-md-6">        
+        <label for="lst-projects" class="lst-header">Projects to deploy:</label>
+        <select id="lst-projects" size="10" disabled="disabled"></select>
+      </div>
+    </div>
+    <div class="row row-with-top-margin">
+      <div class="col-md-12">
+        <div id="txt-logs">
+        </div>
+        <button id="btn-clear-logs" class="flat-butt flat-gray-butt pull-right" onclick="javascript: clearLogs();">
+          <i class="fa fa-trash-o"></i> Clear
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="dlg-collect-credentials" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dlg-collect-credentials-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="dlg-collect-credentials-label">Enter credentials</h3>
+      </div>
+      <div class="modal-body">
+        <p>
+          Credentials are needed to perform deployment of project <strong id="dlg-collect-credentials-project-name"></strong>
+          (configuration: <strong id="dlg-collect-credentials-project-configuration-name"></strong>)
+          to environment <strong id="dlg-collect-credentials-target-environment-name"></strong>.
+        </p>
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="dlg-collect-credentials-username" class="col-sm-2 control-label">Username:</label>
+            <div class="col-sm-10">
+              <input type="text" id="dlg-collect-credentials-username" name="dlg-collect-credentials-username" class="form-control" readonly="readonly"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="dlg-collect-credentials-machine-name" class="col-sm-2 control-label">Machine:</label>
+            <div class="col-sm-10">
+              <input type="text" id="dlg-collect-credentials-machine-name" name="dlg-collect-credentials-machine-name" class="form-control" readonly="readonly"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="dlg-collect-credentials-password" class="col-sm-2 control-label">Password:</label>
+            <div class="col-sm-10">
+              <input type="password" id="dlg-collect-credentials-password" name="dlg-collect-credentials-password" class="form-control"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="dlg-collect-credentials-ok" class="btn btn-primary">OK</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      </div>
+      <input type="hidden" id="dlg-collect-credentials-deployment-id" name="dlg-collect-credentials-deployment-id" value=""/>
+    </div>
+  </div>
+</div>
+
+@{ Html.RenderPartial("Popups/ConfirmRestore");}
+
+@section OptionalScripts {
+  
+  <script type="text/javascript" src="@Url.Content("~/Static/js/envDeploy.js")"> </script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var initData = {        
+        initialSelection: {
+          targetEnvironmentName: @Html.Raw(string.IsNullOrWhiteSpace(Model.InitialTargetEnvironment) ? "null" : string.Format("'{0}'", Model.InitialTargetEnvironment))
+        }
+      };
+
+      UberDeployer.EnvDeploy.initializeEnvDeploymentPage(initData);
+    })
+  </script>
+}
