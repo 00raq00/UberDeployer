@@ -148,6 +148,7 @@
     <Content Include="Static\js\envDeploy.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Static\js\treeGridLogs.js" />
     <Content Include="Static\plugins\bootstrap\css\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
