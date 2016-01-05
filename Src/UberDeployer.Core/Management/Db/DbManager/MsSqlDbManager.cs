@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
@@ -11,14 +11,24 @@ namespace UberDeployer.Core.Management.Db.DbManager
   public class MsSqlDbManager : IDbManager
   {
     private const string _ConnectionStringPattern = "Server={0};Integrated Security=SSPI";
+    
     private const string _DropDatabaseTemplate = "ALTER DATABASE {0} SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE {0}";
+    
     private const string _DbExistQueryTemplate = "SELECT TOP 1 1 FROM master.dbo.sysdatabases WHERE name='{0}'";
+    
     private const string _DbUserExistsOnDatabase = "USE {0}; SELECT TOP 1 1 FROM sys.database_principals WHERE name = N'{1}'";
+    
     private const string _DbCreateUserOnDatabase = "USE {0}; CREATE USER [{1}] FOR LOGIN [{1}]";
-
+    
     private const string _DbChekIfUserIsInRole = "USE {0}; SELECT TOP 1 1 FROM sys.sysmembers WHERE USER_NAME(groupuid) IN ('{1}') AND USER_NAME(memberuid) =  N'{2}';";
-
+    
     private const string _DbAddRoleToUser = "USE {0}; EXEC sp_addrolemember N'{1}', N'{2}'";
+    
+    private const string _GetDatabaseIdTemplate = "SELECT database_id FROM sys.databases WHERE name = '{0}'";
+    
+    private const string _GetSnapshotsTemplate = "SELECT name FROM sys.databases WHERE source_database_id = '{0}'";
+    
+    private const string _DropSnapshotQuery = "DROP DATABASE {0}";
 
     private readonly string _databaseServer;
 
@@ -135,6 +145,57 @@ namespace UberDeployer.Core.Management.Db.DbManager
       {
         throw new MsSqlDbManagementException(string.Format("Failed adding membership {0} to user {1}.", roleName, username), exc);
       }
+    }
+
+    public void DropAllDatabaseSnapshots(string databaseName)
+    {
+      using (var connection = new SqlConnection(GetConnectionString()))
+      {
+        Server server = GetServer(connection);
+       
+        int? databaseId = GetDatabaseIdByName(databaseName, server);
+        if (databaseId.HasValue == false)
+        {
+          return;
+        }
+
+        IEnumerable<string> snapshotNames = GetSnapshotNames(databaseId, server);
+
+        foreach (var snapshotName in snapshotNames)
+        {
+          DropSnapshot(snapshotName, server);
+        }
+      }
+    }
+
+    private static void DropSnapshot(string snapshotName, Server server)
+    {
+      string dropSnapshotQuery = string.Format(_DropSnapshotQuery, snapshotName);
+
+      server.ConnectionContext.ExecuteScalar(dropSnapshotQuery);
+    }
+
+    private static IEnumerable<string> GetSnapshotNames(int? databaseId, Server server)
+    {
+      string getSnapshotsQuery = string.Format(_GetSnapshotsTemplate, databaseId);
+
+      SqlDataReader sqlDataReader = server.ConnectionContext.ExecuteReader(getSnapshotsQuery);
+
+      while (sqlDataReader.NextResult())
+      {
+        yield return (string)sqlDataReader[0];
+      }
+    }
+
+    private static int? GetDatabaseIdByName(string databaseName, Server server)
+    {
+      string getDbIdQuery = string.Format(_GetDatabaseIdTemplate, databaseName);
+
+      object resultId = server.ConnectionContext.ExecuteScalar(getDbIdQuery);
+      
+      return resultId != null
+        ? (int?) resultId
+        : null;
     }
 
     private void ExecuteNonQuery(string commandString)
