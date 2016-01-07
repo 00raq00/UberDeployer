@@ -24,9 +24,7 @@ namespace UberDeployer.Core.Management.Db.DbManager
     
     private const string _DbAddRoleToUser = "USE {0}; EXEC sp_addrolemember N'{1}', N'{2}'";
     
-    private const string _GetDatabaseIdTemplate = "SELECT database_id FROM sys.databases WHERE name = '{0}'";
-    
-    private const string _GetSnapshotsTemplate = "SELECT name FROM sys.databases WHERE source_database_id = '{0}'";
+    private const string _GetSnapshotsTemplate = "SELECT name FROM sys.databases WHERE source_database_id = (SELECT database_id FROM sys.databases WHERE name = '{0}')";
     
     private const string _DropSnapshotQuery = "DROP DATABASE {0}";
 
@@ -153,13 +151,7 @@ namespace UberDeployer.Core.Management.Db.DbManager
       {
         Server server = GetServer(connection);
        
-        int? databaseId = GetDatabaseIdByName(databaseName, server);
-        if (databaseId.HasValue == false)
-        {
-          return;
-        }
-
-        IEnumerable<string> snapshotNames = GetSnapshotNames(databaseId, server);
+        IEnumerable<string> snapshotNames = GetSnapshotNames(databaseName, server);
 
         foreach (var snapshotName in snapshotNames)
         {
@@ -175,27 +167,20 @@ namespace UberDeployer.Core.Management.Db.DbManager
       server.ConnectionContext.ExecuteScalar(dropSnapshotQuery);
     }
 
-    private static IEnumerable<string> GetSnapshotNames(int? databaseId, Server server)
+    private static IEnumerable<string> GetSnapshotNames(string databaseName, Server server)
     {
-      string getSnapshotsQuery = string.Format(_GetSnapshotsTemplate, databaseId);
+      string getSnapshotsQuery = string.Format(_GetSnapshotsTemplate, databaseName);
 
-      SqlDataReader sqlDataReader = server.ConnectionContext.ExecuteReader(getSnapshotsQuery);
-
-      while (sqlDataReader.NextResult())
+      using (SqlDataReader sqlDataReader = server.ConnectionContext.ExecuteReader(getSnapshotsQuery))
       {
-        yield return (string)sqlDataReader[0];
+        var snapshotNames = new List<string>();
+        while (sqlDataReader.Read())
+        {
+          snapshotNames.Add((string) sqlDataReader[0]);
+        }
+
+        return snapshotNames;
       }
-    }
-
-    private static int? GetDatabaseIdByName(string databaseName, Server server)
-    {
-      string getDbIdQuery = string.Format(_GetDatabaseIdTemplate, databaseName);
-
-      object resultId = server.ConnectionContext.ExecuteScalar(getDbIdQuery);
-      
-      return resultId != null
-        ? (int?) resultId
-        : null;
     }
 
     private void ExecuteNonQuery(string commandString)
