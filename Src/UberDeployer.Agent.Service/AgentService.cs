@@ -282,7 +282,8 @@ namespace UberDeployer.Agent.Service
     private IEnumerable<ProjectDeploymentData> CreateProjectEnvironmentDeployments(Guid uniqueClientId, EnvironmentDeployInfo environmentDeployInfo, IEnumerable<ProjectToDeploy> projects)
     {
       var projectDeployments = new List<ProjectDeploymentData>();
-      var priorityProjectDeplyoments = new List<ProjectDeploymentData>();
+      var priorityDbProjectDeployments = new List<ProjectDeploymentData>();
+      var priorityNtProjectDeployments = new List<ProjectDeploymentData>();
 
       EnvironmentInfo environmentInfo = _environmentInfoRepository.FindByName(environmentDeployInfo.TargetEnvironment);
 
@@ -323,7 +324,7 @@ namespace UberDeployer.Agent.Service
               ObjectFactory.Instance.CreateEnvironmentInfoRepository(),
               ObjectFactory.Instance.CreateDbManagerFactory());
 
-            priorityProjectDeplyoments.Add(new ProjectDeploymentData(deploymentInfo, projectInfo, dropDbProjectDeploymentTask));
+            priorityDbProjectDeployments.Add(new ProjectDeploymentData(deploymentInfo, projectInfo, dropDbProjectDeploymentTask));
 
             deploymentTask =
               new DeployDbProjectDeploymentTask(
@@ -342,6 +343,13 @@ namespace UberDeployer.Agent.Service
           }
           else if (projectInfo.Type == ProjectType.NtService)
           {
+            DeploymentTask stopNtServiceTask = new StopNtServiceDeploymentTask(
+              ObjectFactory.Instance.CreateProjectInfoRepository(),
+              ObjectFactory.Instance.CreateEnvironmentInfoRepository(),
+              ObjectFactory.Instance.CreateNtServiceManager());
+
+            priorityNtProjectDeployments.Add(new ProjectDeploymentData(deploymentInfo, projectInfo, stopNtServiceTask));
+
             deploymentTask = new DeployNtServiceDeploymentTask(
               ObjectFactory.Instance.CreateProjectInfoRepository(),
               ObjectFactory.Instance.CreateEnvironmentInfoRepository(),
@@ -369,9 +377,10 @@ namespace UberDeployer.Agent.Service
         }
       }
 
-      priorityProjectDeplyoments.AddRange(projectDeployments);
+      priorityNtProjectDeployments.AddRange(priorityDbProjectDeployments);
+      priorityNtProjectDeployments.AddRange(projectDeployments);
 
-      return priorityProjectDeplyoments;
+      return priorityNtProjectDeployments;
     }
 
     private static InputParams BuildInputParams(ProjectInfo projectInfo, EnvironmentInfo environmentInfo)

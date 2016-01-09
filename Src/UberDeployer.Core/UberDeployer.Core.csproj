@@ -125,6 +125,7 @@
     <Compile Include="Deployment\Steps\AddUserToDatabaseStep.cs" />
     <Compile Include="Deployment\Tasks\DependenciesDeployment\ProjectDeployment.cs" />
     <Compile Include="Deployment\Tasks\DeployPowerShellScriptDeploymentTask.cs" />
+    <Compile Include="Deployment\Tasks\StopNtServiceDeploymentTask.cs" />
     <Compile Include="Deployment\UserNameNormalizer.cs" />
     <Compile Include="Domain\CustomEnvMachine.cs" />
     <Compile Include="Domain\Input\PowerShellInputParams.cs" />
