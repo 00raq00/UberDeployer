@@ -12,6 +12,8 @@ using UberDeployer.Core.DataAccess.Json;
 using UberDeployer.Core.DataAccess;
 using UberDeployer.Core.DataAccess.NHibernate;
 using UberDeployer.Core.DataAccess.Xml;
+using UberDeployer.Core.DataAccess.Xml.EnvironmentInfo;
+using UberDeployer.Core.DataAccess.Xml.ProjectInfo;
 using UberDeployer.Core.Deployment;
 using UberDeployer.Core.Deployment.Pipeline;
 using UberDeployer.Core.Deployment.Pipeline.Modules;

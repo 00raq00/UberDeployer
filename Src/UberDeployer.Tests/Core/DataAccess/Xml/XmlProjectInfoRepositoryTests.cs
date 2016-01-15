@@ -8,7 +8,8 @@ using System.Reflection;
 using NUnit.Framework;
 
 using UberDeployer.Core.DataAccess.Xml;
-using UberDeployer.Core.Domain;
+﻿using UberDeployer.Core.DataAccess.Xml.ProjectInfo;
+﻿using UberDeployer.Core.Domain;
 
 namespace UberDeployer.Tests.Core.DataAccess
 {

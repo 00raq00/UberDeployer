@@ -1,4 +1,4 @@
-﻿namespace UberDeployer.Core.DataAccess.Xml.ProjectInfos
+﻿namespace UberDeployer.Core.DataAccess.Xml.ProjectInfo.XmlModel
 {
   public class SchedulerAppTaskXml
   {

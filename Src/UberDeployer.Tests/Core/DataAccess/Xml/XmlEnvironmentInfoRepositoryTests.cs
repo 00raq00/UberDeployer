@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 using UberDeployer.Core.DataAccess.Xml;
+using UberDeployer.Core.DataAccess.Xml.EnvironmentInfo;
 using UberDeployer.Core.Domain;
 
 namespace UberDeployer.Tests.Core.DataAccess.Xml
