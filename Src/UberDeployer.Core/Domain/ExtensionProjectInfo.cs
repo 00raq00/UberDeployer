@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using NHibernate.Hql.Ast.ANTLR.Tree;
 using UberDeployer.Common.SyntaxSugar;
 using UberDeployer.Core.Deployment.Tasks;
 using UberDeployer.Core.Domain.Input;
+using UberDeployer.Core.Management.FailoverCluster;
 
 namespace UberDeployer.Core.Domain
 {
@@ -62,10 +66,27 @@ namespace UberDeployer.Core.Domain
       Guard.NotNull(objectFactory, "objectFactory");
       Guard.NotNull(environmentInfo, "environmentInfo");
 
-      return
-        environmentInfo.TerminalAppsBaseDirPath
-          .Select(machineName => environmentInfo.GetSchedulerServerNetworkPath(machineName.ToString(), ""))
-          .ToList();
+      IProjectInfoRepository projectInfoRepository = objectFactory.CreateProjectInfoRepository();
+      
+      var extendedNtServiceProject = projectInfoRepository.FindByName(ExtendedProjectName) as NtServiceProjectInfo;
+      if (extendedNtServiceProject == null)
+      {
+        throw new ConfigurationErrorsException(string.Format("Extended NT service project: [{0}] not found", ExtendedProjectName));
+      }
+
+      string targetDirPath = Path.Combine(environmentInfo.NtServicesBaseDirPath, extendedNtServiceProject.NtServiceDirName, extendedNtServiceProject.ExtensionsDirName);
+
+      if (environmentInfo.EnableFailoverClusteringForNtServices)
+      {
+        IFailoverClusterManager failoverClusterManager = objectFactory.CreateFailoverClusterManager();
+
+        string clusterGroupName = environmentInfo.GetFailoverClusterGroupNameForProject(ExtendedProjectName);
+
+        return failoverClusterManager.GetPossibleNodeNames(environmentInfo.FailoverClusterMachineName, clusterGroupName)
+          .Select(nodeName => EnvironmentInfo.GetNetworkPath(nodeName, targetDirPath));
+      }
+      
+      return new[] { environmentInfo.GetAppServerNetworkPath(targetDirPath) };
     }
 
     public override string GetMainAssemblyFileName()

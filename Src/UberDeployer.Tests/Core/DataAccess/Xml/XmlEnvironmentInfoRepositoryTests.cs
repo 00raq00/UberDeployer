@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using UberDeployer.Core.DataAccess.Xml;
 using UberDeployer.Core.DataAccess.Xml.EnvironmentInfo;
@@ -25,6 +26,8 @@ namespace UberDeployer.Tests.Core.DataAccess.Xml
     {
       // act assert
       Assert.DoesNotThrow(() => _sut.GetAll());
+
+      IEnumerable<EnvironmentInfo> environmentInfos = _sut.GetAll();
     }
 
     [Test]
@@ -42,6 +45,25 @@ namespace UberDeployer.Tests.Core.DataAccess.Xml
       // assert
       Assert.IsNotNull(customEnvMachine);
       Assert.AreEqual(expectedMachineName, customEnvMachine.MachineName);
+    }
+
+    [Test]
+    public void TerminalServerMachines_are_loaded_properly()
+    {
+      // arrange
+      const string expectedMachineName = "Terminal_MachineName";
+      const string expectedAppsBaseDirPath = "Terminal_AppsBaseDirPath";
+      const string expectedAppsShortcutFolder = "Terminal_AppsShortcutFolder";
+
+      // act
+      EnvironmentInfo environmentInfo = _sut.FindByName(_testEnvName);
+
+      var terminalMachine = environmentInfo.TerminalServerMachines.First();
+
+      // assert
+      Assert.AreEqual(expectedMachineName, terminalMachine.MachineName);
+      Assert.AreEqual(expectedAppsBaseDirPath, terminalMachine.AppsBaseDirPath);
+      Assert.AreEqual(expectedAppsShortcutFolder, terminalMachine.AppsShortcutFolder);
     }
   }
 }

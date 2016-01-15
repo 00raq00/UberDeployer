@@ -75,6 +75,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
@@ -107,6 +108,7 @@
     <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\EnvironmentInfoXml.cs" />
     <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\EnvironmentUserXml.cs" />
     <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\ProjectToFailoverClusterGroupMappingXml.cs" />
+    <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\TerminalServerMachineXml.cs" />
     <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\Variable.cs" />
     <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\WebAppProjectConfigurationOverrideXml.cs" />
     <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlEnvironmentInfoRepository.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="Domain\IEnvironmentDeployInfoRepository.cs" />
     <Compile Include="Domain\EnvironmentDeployInfo.cs" />
     <Compile Include="DataAccess\Json\JsonEnvironmentDeployInfoRepository.cs" />
+    <Compile Include="Domain\TerminalServerMachine.cs" />
     <Compile Include="ExternalDataCollectors\AsynchronousWebPasswordCollector.cs" />
     <Compile Include="Deployment\ScriptsToRunSelection.cs" />
     <Compile Include="Deployment\Steps\CleanDirectoryDeploymentStep.cs" />

@@ -50,11 +50,6 @@ namespace UberDeployer.Agent.Proxy
       return Exec(@as => @as.GetWebAppProjectTargetUrls(projectName, environmentName));
     }
 
-    public List<string> GetProjectTargetFolders(string projectName, string environmentName)
-    {
-      return Exec(@as => @as.GetProjectTargetFolders(projectName, environmentName));
-    }
-
     public List<DeploymentRequest> GetDeploymentRequests(int startIndex, int maxCount)
     {
       return Exec(@as => @as.GetDeploymentRequests(startIndex, maxCount));

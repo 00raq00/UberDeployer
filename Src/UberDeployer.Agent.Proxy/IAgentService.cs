@@ -48,11 +48,6 @@ namespace UberDeployer.Agent.Proxy
     [FaultContract(typeof(EnvironmentNotFoundFault))]
     List<string> GetWebAppProjectTargetUrls(string projectName, string environmentName);
 
-    [OperationContract]
-    [FaultContract(typeof(ProjectNotFoundFault))]
-    [FaultContract(typeof(EnvironmentNotFoundFault))]
-    List<string> GetProjectTargetFolders(string projectName, string environmentName);
-
     // TODO IMM HI: separate interface?
     [OperationContract]
     List<DeploymentRequest> GetDeploymentRequests(int startIndex, int maxCount);

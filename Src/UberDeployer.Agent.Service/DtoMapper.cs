@@ -64,6 +64,8 @@ namespace UberDeployer.Agent.Service
 
       Mapper.CreateMap<Proxy.Dto.DependentProject, Core.ExternalDataCollectors.DependentProjectsSelection.DependentProject>();
 
+      Mapper.CreateMap<Core.Domain.TerminalServerMachine, Proxy.Dto.TerminalServerMachine>();
+
       Mapper.AssertConfigurationIsValid();
     }
 

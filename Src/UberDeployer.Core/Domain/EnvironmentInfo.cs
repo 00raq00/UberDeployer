@@ -28,21 +28,19 @@ namespace UberDeployer.Core.Domain
       string appServerMachineName,
       string failoverClusterMachineName,
       IEnumerable<string> webServerMachineNames,
-      string terminalServerMachineName,
+      IEnumerable<TerminalServerMachine> terminalServerMachines,
       IEnumerable<string> schedulerServerTasksMachineNames,
       IEnumerable<string> schedulerServerBinariesMachineNames,
       string ntServicesBaseDirPath,
       string webAppsBaseDirPath,
       string schedulerAppsBaseDirPath,
-      string terminalAppsBaseDirPath,
       bool enableFailoverClusteringForNtServices,      
       IEnumerable<EnvironmentUser> environmentUsers,
       IEnumerable<IisAppPoolInfo> appPoolInfos,
       IEnumerable<DatabaseServer> databaseServers,
       IEnumerable<ProjectToFailoverClusterGroupMapping> projectToFailoverClusterGroupMappings,
       IEnumerable<WebAppProjectConfigurationOverride> webAppProjectConfigurationOverrides,
-      IEnumerable<DbProjectConfigurationOverride> dbProjectConfigurations,
-      string terminalAppShortcutFolder,
+      IEnumerable<DbProjectConfigurationOverride> dbProjectConfigurations,      
       string manualDeploymentPackageDirPath,
       string domainName,
       IEnumerable<CustomEnvMachine>  customEnvMachines)
@@ -50,61 +48,25 @@ namespace UberDeployer.Core.Domain
       Guard.NotNullNorEmpty(name, "name");
       Guard.NotNull(configurationTemplateName, "configurationTemplateName");
       Guard.NotNullNorEmpty(appServerMachineName, "appServerMachineName");
-      Guard.NotNull(failoverClusterMachineName, "failoverClusterMachineName");
-      
-      if (webServerMachineNames == null)
-      {
-        throw new ArgumentNullException("webServerMachineNames");
-      }
-
-      if (schedulerServerTasksMachineNames == null)
-      {
-        throw new ArgumentNullException("schedulerServerTasksMachineNames");
-      }
-
-      if (schedulerServerBinariesMachineNames == null)
-      {
-        throw new ArgumentNullException("schedulerServerBinariesMachineNames");
-      }
-
-      Guard.NotNullNorEmpty(terminalServerMachineName, "terminalServerMachineName");
+      Guard.NotNull(webServerMachineNames, "webServerMachineNames");
+      Guard.NotNull(schedulerServerTasksMachineNames, "schedulerServerBinariesMachineNames");
+      Guard.NotNull(schedulerServerBinariesMachineNames, "schedulerServerBinariesMachineNames");
+      Guard.NotNull(terminalServerMachines, "terminalServerMachines");
       Guard.NotNullNorEmpty(ntServicesBaseDirPath, "ntServicesBaseDirPath");
       Guard.NotNullNorEmpty(webAppsBaseDirPath, "webAppsBaseDirPath");
       Guard.NotNullNorEmpty(schedulerAppsBaseDirPath, "schedulerAppsBaseDirPath");
-      Guard.NotNullNorEmpty(terminalAppsBaseDirPath, "terminalAppsBaseDirPath");
-
-      if (environmentUsers == null)
-      {
-        throw new ArgumentNullException("environmentUsers");
-      }
-
-      if (appPoolInfos == null)
-      {
-        throw new ArgumentNullException("appPoolInfos");
-      }
+      Guard.NotNull(environmentUsers, "environmentUsers");
+      Guard.NotNull(appPoolInfos, "appPoolInfos");
+      Guard.NotNull(webAppProjectConfigurationOverrides, "webAppProjectConfigurationOverrides");
+      Guard.NotNull(projectToFailoverClusterGroupMappings, "projectToFailoverClusterGroupMappings");
+      Guard.NotNull(dbProjectConfigurations, "dbProjectConfigurations");
+      Guard.NotNullNorEmpty(domainName, "domainName");
+      Guard.NotNullNorEmpty(name, "terminalAppShortcutPath");
 
       if (enableFailoverClusteringForNtServices && string.IsNullOrEmpty(failoverClusterMachineName))
       {
         throw new ArgumentException("If enableFailoverClusteringForNtServices is set, failoverClusterMachineName must not be empty.", "enableFailoverClusteringForNtServices");
       }
-
-      if (webAppProjectConfigurationOverrides == null)
-      {
-        throw new ArgumentNullException("webAppProjectConfigurationOverrides");
-      }
-
-      if (projectToFailoverClusterGroupMappings == null)
-      {
-        throw new ArgumentNullException("projectToFailoverClusterGroupMappings");
-      }
-
-      if (dbProjectConfigurations == null)
-      {
-        throw new ArgumentNullException("dbProjectConfigurations");
-      }
-
-      Guard.NotNullNorEmpty(domainName, "domainName");
-      Guard.NotNullNorEmpty(name, "terminalAppShortcutPath");      
 
       Name = name;
       IsVisibleToClients = isVisibleToClients;
@@ -112,7 +74,13 @@ namespace UberDeployer.Core.Domain
       AppServerMachineName = appServerMachineName;
       FailoverClusterMachineName = failoverClusterMachineName;
       _webServerMachines = webServerMachineNames.ToList();
-      TerminalServerMachineName = terminalServerMachineName;
+      
+      TerminalServerMachines = terminalServerMachines;
+      if (TerminalServerMachines.Any() == false)
+      {
+        throw new ArgumentException("At least one terminal server machine must be present.", "terminalServerMachines");
+      }
+
       _schedulerServerTasksMachineNames = schedulerServerTasksMachineNames.ToList();
 
       if (_schedulerServerTasksMachineNames.Count == 0)
@@ -130,7 +98,6 @@ namespace UberDeployer.Core.Domain
       NtServicesBaseDirPath = ntServicesBaseDirPath;
       WebAppsBaseDirPath = webAppsBaseDirPath;
       SchedulerAppsBaseDirPath = schedulerAppsBaseDirPath;
-      TerminalAppsBaseDirPath = terminalAppsBaseDirPath;
       EnableFailoverClusteringForNtServices = enableFailoverClusteringForNtServices;
 
       _environmentUsersByIdDict = environmentUsers.ToDictionary(e => e.Id);
@@ -142,7 +109,6 @@ namespace UberDeployer.Core.Domain
       _webAppProjectConfigurationOverridesDict = webAppProjectConfigurationOverrides.ToDictionary(e => e.ProjectName);
       _dbProjectConfigurationOverridesDict = dbProjectConfigurations.ToDictionary(e => e.ProjectName);
 
-      TerminalAppsShortcutFolder = terminalAppShortcutFolder;
       ManualDeploymentPackageDirPath = manualDeploymentPackageDirPath;      
       DomainName = domainName;
 
@@ -199,13 +165,6 @@ namespace UberDeployer.Core.Domain
       Guard.NotNullNorEmpty(absoluteLocalPath, "absoluteLocalPath");
 
       return GetNetworkPath(webServerMachineName, absoluteLocalPath);
-    }
-
-    public string GetTerminalServerNetworkPath(string absoluteLocalPath)
-    {
-      Guard.NotNullNorEmpty(absoluteLocalPath, "absoluteLocalPath");
-
-      return GetNetworkPath(TerminalServerMachineName, absoluteLocalPath);
     }
 
     public EnvironmentUser GetEnvironmentUser(string userId)
@@ -386,7 +345,7 @@ namespace UberDeployer.Core.Domain
       get { return _webServerMachines.AsReadOnly(); }
     }
 
-    public string TerminalServerMachineName { get; private set; }
+    public IEnumerable<TerminalServerMachine> TerminalServerMachines { get; private set; }
 
     public IEnumerable<string> SchedulerServerTasksMachineNames
     {
@@ -404,11 +363,7 @@ namespace UberDeployer.Core.Domain
 
     public string SchedulerAppsBaseDirPath { get; private set; }
 
-    public string TerminalAppsBaseDirPath { get; private set; }
-
     public bool EnableFailoverClusteringForNtServices { get; private set; }
-
-    public string TerminalAppsShortcutFolder { get; private set; }
 
     public string ManualDeploymentPackageDirPath { get; private set; }
 
@@ -450,3 +405,4 @@ namespace UberDeployer.Core.Domain
     }
   }
 }
+ 

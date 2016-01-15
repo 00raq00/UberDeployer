@@ -137,19 +137,22 @@ namespace UberDeployer.Core.Domain
       Guard.NotNull(objectFactory, "objectFactory");
       Guard.NotNull(environmentInfo, "environmentInfo");
 
-      string baseDirPath =
-        environmentInfo.GetTerminalServerNetworkPath(
-          Path.Combine(environmentInfo.TerminalAppsBaseDirPath, TerminalAppDirName));
+      foreach (var terminalServerMachine in environmentInfo.TerminalServerMachines)
+      {
+        string appLocalDirPath = Path.Combine(terminalServerMachine.AppsBaseDirPath, TerminalAppDirName);
 
-      string latestVersionDirPath =
-        FindLatestVersionDirPath(
-          objectFactory.CreateDirectoryAdapter(),
-          baseDirPath);
+        string appNetworkPath = EnvironmentInfo.GetNetworkPath(terminalServerMachine.MachineName, appLocalDirPath);
 
-      return
-        !string.IsNullOrEmpty(latestVersionDirPath)
-          ? new[] { latestVersionDirPath }
-          : new[] { baseDirPath };
+        string latestVersionDirPath =
+          FindLatestVersionDirPath(
+            objectFactory.CreateDirectoryAdapter(),
+            appNetworkPath);
+
+        yield return
+          !string.IsNullOrEmpty(latestVersionDirPath)
+            ? latestVersionDirPath
+            : appNetworkPath;
+      }
     }
 
     public override string GetMainAssemblyFileName()

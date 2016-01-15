@@ -91,13 +91,17 @@ namespace UberDeployer.Core.DataAccess.Xml.EnvironmentInfo
           environmentInfoXml.AppServerMachineName,
           environmentInfoXml.FailoverClusterMachineName,
           environmentInfoXml.WebServerMachineNames,
-          environmentInfoXml.TerminalServerMachineName,
+          environmentInfoXml.TerminalServerMachines.Select(
+            x => new TerminalServerMachine(
+              x.MachineName,
+              x.AppsBaseDirPath,
+              x.AppsShortcutFolder)
+          ),
           environmentInfoXml.SchedulerServerTasksMachineNames,
           environmentInfoXml.SchedulerServerBinariesMachineNames,
           environmentInfoXml.NtServicesBaseDirPath,
           environmentInfoXml.WebAppsBaseDirPath,
           environmentInfoXml.SchedulerAppsBaseDirPath,
-          environmentInfoXml.TerminalAppsBaseDirPath,
           environmentInfoXml.EnableFailoverClusteringForNtServices,
           environmentInfoXml.EnvironmentUsers.Select(
             e =>
@@ -136,7 +140,6 @@ namespace UberDeployer.Core.DataAccess.Xml.EnvironmentInfo
               new DbProjectConfigurationOverride(
                 e.ProjectName,
                 e.DatabaseServerId)),
-          environmentInfoXml.TerminalAppsShortcutFolder,
           environmentInfoXml.ManualDeploymentPackageDirPath,
           environmentInfoXml.DomainName,
           environmentInfoXml.CustomEnvMachines.Select(

@@ -16,7 +16,7 @@ namespace UberDeployer.Core.DataAccess.Xml.EnvironmentInfo.XmlModel
 
     public List<string> WebServerMachineNames { get; set; }
 
-    public string TerminalServerMachineName { get; set; }
+    public List<TerminalServerMachineXml> TerminalServerMachines { get; set; }
 
     public List<string> SchedulerServerTasksMachineNames { get; set; }
 
@@ -27,8 +27,6 @@ namespace UberDeployer.Core.DataAccess.Xml.EnvironmentInfo.XmlModel
     public string WebAppsBaseDirPath { get; set; }
 
     public string SchedulerAppsBaseDirPath { get; set; }
-
-    public string TerminalAppsBaseDirPath { get; set; }
 
     public bool EnableFailoverClusteringForNtServices { get; set; }
 
@@ -43,8 +41,6 @@ namespace UberDeployer.Core.DataAccess.Xml.EnvironmentInfo.XmlModel
     public List<ProjectToFailoverClusterGroupMappingXml> ProjectToFailoverClusterGroupMappings { get; set; }
 
     public List<DbProjectConfigurationOverrideXml> DbProjectConfigurationOverrides { get; set; }
-
-    public string TerminalAppsShortcutFolder { get; set; }
 
     public string ManualDeploymentPackageDirPath { get; set; }
 
