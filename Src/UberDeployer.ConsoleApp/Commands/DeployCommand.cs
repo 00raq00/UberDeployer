@@ -80,7 +80,7 @@ namespace UberDeployer.ConsoleApp.Commands
       }
       catch (Exception exc)
       {
-        LogMessage("Error: " + exc, DiagnosticMessageType.Error);
+        LogMessage("Error: " + exc.Message, DiagnosticMessageType.Error, exc);
 
         return 1;
       }
@@ -91,7 +91,7 @@ namespace UberDeployer.ConsoleApp.Commands
       OutputWriter.WriteLine("Usage: {0} project projectConfiguration buildId targetEnvironment", CommandName);
     }
 
-    protected void LogMessage(string message, DiagnosticMessageType messageType)
+    protected void LogMessage(string message, DiagnosticMessageType messageType, Exception exception = null)
     {
       switch (messageType)
       {
