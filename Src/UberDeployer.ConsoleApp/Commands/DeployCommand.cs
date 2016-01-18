@@ -104,11 +104,11 @@ namespace UberDeployer.ConsoleApp.Commands
           break;
 
         case DiagnosticMessageType.Warn:
-          _log.WarnIfEnabled(() => message);
+          _log.WarnIfEnabled(() => message, exception);
           break;
 
         case DiagnosticMessageType.Error:
-          _log.ErrorIfEnabled(() => message);
+          _log.ErrorIfEnabled(() => message, exception);
           break;
 
         default:
