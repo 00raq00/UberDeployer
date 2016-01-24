@@ -78,6 +78,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
@@ -103,18 +104,29 @@
     <Compile Include="DataAccess\WebClient\IInternalApiWebClient.cs" />
     <Compile Include="DataAccess\WebClient\InternalApiWebClient.cs" />
     <Compile Include="DataAccess\Xml\ApplicationConfigurationXml.cs" />
-    <Compile Include="DataAccess\Xml\ProjectInfos\ExtensionProjectInfoXml.cs" />
-    <Compile Include="DataAccess\Xml\ProjectInfos\PowerShellScriptProjectInfoXml.cs" />
-    <Compile Include="DataAccess\Xml\ProjectInfos\UberDeployerAgentProjectInfoXml.cs" />
-    <Compile Include="DataAccess\Xml\ProjectInfos\DbProjectInfoXml.cs" />
-    <Compile Include="DataAccess\Xml\ProjectInfos\TerminalAppProjectInfoXml.cs" />
-    <Compile Include="DataAccess\Xml\ProjectInfos\RepetitionXml.cs" />
-    <Compile Include="DataAccess\Xml\ProjectInfos\SchedulerAppTaskXml.cs" />
-    <Compile Include="DataAccess\Xml\ProjectInfos\SchedulerAppProjectInfoXml.cs" />
-    <Compile Include="DataAccess\Xml\ProjectInfos\NtServiceProjectInfoXml.cs" />
-    <Compile Include="DataAccess\Xml\ProjectInfos\WebAppProjectInfoXml.cs" />
-    <Compile Include="DataAccess\Xml\ProjectInfos\ProjectInfoXml.cs" />
-    <Compile Include="DataAccess\Xml\ProjectInfos\ProjectInfosXml.cs" />
+    <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\AppPoolInfoXml.cs" />
+    <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\CustomEnvMachineXml.cs" />
+    <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\DatabaseServerXml.cs" />
+    <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\DbProjectConfigurationOverrideXml.cs" />
+    <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\EnvironmentInfoXml.cs" />
+    <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\EnvironmentUserXml.cs" />
+    <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\ProjectToFailoverClusterGroupMappingXml.cs" />
+    <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\TerminalServerMachineXml.cs" />
+    <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\Variable.cs" />
+    <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlModel\WebAppProjectConfigurationOverrideXml.cs" />
+    <Compile Include="DataAccess\Xml\EnvironmentInfo\XmlEnvironmentInfoRepository.cs" />
+    <Compile Include="DataAccess\Xml\ProjectInfo\XmlModel\ExtensionProjectInfoXml.cs" />
+    <Compile Include="DataAccess\Xml\ProjectInfo\XmlModel\PowerShellScriptProjectInfoXml.cs" />
+    <Compile Include="DataAccess\Xml\ProjectInfo\XmlModel\UberDeployerAgentProjectInfoXml.cs" />
+    <Compile Include="DataAccess\Xml\ProjectInfo\XmlModel\DbProjectInfoXml.cs" />
+    <Compile Include="DataAccess\Xml\ProjectInfo\XmlModel\TerminalAppProjectInfoXml.cs" />
+    <Compile Include="DataAccess\Xml\ProjectInfo\XmlModel\RepetitionXml.cs" />
+    <Compile Include="DataAccess\Xml\ProjectInfo\XmlModel\SchedulerAppTaskXml.cs" />
+    <Compile Include="DataAccess\Xml\ProjectInfo\XmlModel\SchedulerAppProjectInfoXml.cs" />
+    <Compile Include="DataAccess\Xml\ProjectInfo\XmlModel\NtServiceProjectInfoXml.cs" />
+    <Compile Include="DataAccess\Xml\ProjectInfo\XmlModel\WebAppProjectInfoXml.cs" />
+    <Compile Include="DataAccess\Xml\ProjectInfo\XmlModel\ProjectInfoXml.cs" />
+    <Compile Include="DataAccess\Xml\ProjectInfo\XmlModel\ProjectInfosXml.cs" />
     <Compile Include="DataAccess\Xml\XmlApplicationConfigurationRepository.cs" />
     <Compile Include="Deployment\IUserNameNormalizer.cs" />
     <Compile Include="Deployment\Pipeline\EnvDeploymentPipeline.cs" />
@@ -128,6 +140,7 @@
     <Compile Include="Deployment\Steps\AddUserToDatabaseStep.cs" />
     <Compile Include="Deployment\Tasks\DependenciesDeployment\ProjectDeployment.cs" />
     <Compile Include="Deployment\Tasks\DeployPowerShellScriptDeploymentTask.cs" />
+    <Compile Include="Deployment\Tasks\StopNtServiceDeploymentTask.cs" />
     <Compile Include="Deployment\UserNameNormalizer.cs" />
     <Compile Include="Domain\CustomEnvMachine.cs" />
     <Compile Include="Domain\Input\PowerShellInputParams.cs" />
@@ -137,6 +150,7 @@
     <Compile Include="Domain\IEnvironmentDeployInfoRepository.cs" />
     <Compile Include="Domain\EnvironmentDeployInfo.cs" />
     <Compile Include="DataAccess\Json\JsonEnvironmentDeployInfoRepository.cs" />
+    <Compile Include="Domain\TerminalServerMachine.cs" />
     <Compile Include="ExternalDataCollectors\AsynchronousWebPasswordCollector.cs" />
     <Compile Include="Deployment\ScriptsToRunSelection.cs" />
     <Compile Include="Deployment\Steps\CleanDirectoryDeploymentStep.cs" />
@@ -339,8 +353,7 @@
     <Compile Include="TeamCity\Models\ProjectsList.cs" />
     <Compile Include="TeamCity\TeamCityClient.cs" />
     <Compile Include="Domain\WebServiceProjectInfo.cs" />
-    <Compile Include="DataAccess\Xml\XmlEnvironmentInfoRepository.cs" />
-    <Compile Include="DataAccess\Xml\XmlProjectInfoRepository.cs" />
+    <Compile Include="DataAccess\Xml\ProjectInfo\XmlProjectInfoRepository.cs" />
     <Compile Include="TeamCity\TeamCityRestClient.cs" />
   </ItemGroup>
   <ItemGroup>

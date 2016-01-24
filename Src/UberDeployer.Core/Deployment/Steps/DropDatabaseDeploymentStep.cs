@@ -27,6 +27,9 @@ namespace UberDeployer.Core.Deployment.Steps
 
       if (dbManager.DatabaseExist(_projectInfo.DbName))
       {
+        // database cannot be removed when any snapshot exist
+        dbManager.DropAllDatabaseSnapshots(_projectInfo.DbName);
+
         dbManager.DropDatabase(_projectInfo.DbName);
       }
     }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UberDeployer.Core.DataAccess.Xml.ProjectInfos
+namespace UberDeployer.Core.DataAccess.Xml.ProjectInfo.XmlModel
 {
   public class SchedulerAppProjectInfoXml : ProjectInfoXml
   {

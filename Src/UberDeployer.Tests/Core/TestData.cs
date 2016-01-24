@@ -48,5 +48,11 @@ namespace UberDeployer.Tests.Core
       {
         new CustomEnvMachine("id", "machineName"),
       };
+
+    public static readonly List<TerminalServerMachine> TerminalServerMachines =
+      new List<TerminalServerMachine>
+      {
+        new TerminalServerMachine("X:\\terminalServer_machineName", "X:\\terminalServer_appsBaseDirPath", "X:\\terminalServer_appsShortcutFolder"),
+      };
   }
 }

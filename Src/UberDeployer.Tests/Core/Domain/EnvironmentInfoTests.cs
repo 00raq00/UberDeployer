@@ -16,14 +16,11 @@ namespace UberDeployer.Tests.Core.Domain
     private const string _EnvironmentName = "environment";
     private const string _ConfigurationTemplateName = "conf";
     private static readonly List<string> _WebMachineNames = new List<string> { "web1", "web2" };
-    private const string _TerminalMachineName = "terminal_server";
     private static readonly List<string> _SchedulerServerTasksMachineNames = new List<string> { "scheduler_tasks_server", };
     private static readonly List<string> _SchedulerServerBinariesMachineNames = new List<string> { "scheduler_binaries_server", };
     private const string _NtServicesBaseDirPath = "C:\\NtServices";
     private const string _WebAppsBaseDirPath = "C:\\WebApps";
     private const string _SchedulerAppsBaseDirPath = "C:\\SchedulerApps";
-    private const string _TerminalAppsBaseDirPath = "C:\\TerminalApps";
-    private const string _TerminalAppsShortcutFolder = "C:\\TerminalAppShortcuts";
     private const string _ArtifactsDeploymentDirPath = "C:\\ArtifactsDeploymentDirPath";
     private const string _DomainName = "domain-name";
 
@@ -40,13 +37,12 @@ namespace UberDeployer.Tests.Core.Domain
             _AppServerMachine,
             _FailoverClusterMachineName,
             _WebMachineNames,
-            _TerminalMachineName,
+            TestData.TerminalServerMachines,
             _SchedulerServerTasksMachineNames,
             _SchedulerServerBinariesMachineNames,
             _NtServicesBaseDirPath,
             _WebAppsBaseDirPath,
             _SchedulerAppsBaseDirPath,
-            _TerminalAppsBaseDirPath,
             false,
             TestData.EnvironmentUsers,
             TestData.AppPoolInfos,
@@ -54,7 +50,6 @@ namespace UberDeployer.Tests.Core.Domain
             TestData.ProjectToFailoverClusterGroupMappings,
             TestData.WebAppProjectConfigurationOverrides,
             TestData.DbProjectConfigurationOverrides,
-            _TerminalAppsShortcutFolder,
             _ArtifactsDeploymentDirPath,
             _DomainName,
             TestData.CustomEnvMachines);
@@ -74,13 +69,12 @@ namespace UberDeployer.Tests.Core.Domain
             _AppServerMachine,
             _FailoverClusterMachineName,
             _WebMachineNames,
-            _TerminalMachineName,
+            TestData.TerminalServerMachines,
             _SchedulerServerTasksMachineNames,
             _SchedulerServerBinariesMachineNames,
             _NtServicesBaseDirPath,
             _WebAppsBaseDirPath,
             _SchedulerAppsBaseDirPath,
-            _TerminalAppsBaseDirPath,
             false,
             TestData.EnvironmentUsers,
             TestData.AppPoolInfos,
@@ -88,7 +82,6 @@ namespace UberDeployer.Tests.Core.Domain
             TestData.ProjectToFailoverClusterGroupMappings,
             TestData.WebAppProjectConfigurationOverrides,
             TestData.DbProjectConfigurationOverrides,
-            _TerminalAppsShortcutFolder,
             _ArtifactsDeploymentDirPath,
             _DomainName,
             TestData.CustomEnvMachines);
@@ -105,13 +98,12 @@ namespace UberDeployer.Tests.Core.Domain
         _AppServerMachine,
         _FailoverClusterMachineName,
         _WebMachineNames,
-        _TerminalMachineName,
+        TestData.TerminalServerMachines,
         _SchedulerServerTasksMachineNames,
         _SchedulerServerBinariesMachineNames,
         _NtServicesBaseDirPath,
         _WebAppsBaseDirPath,
         _SchedulerAppsBaseDirPath,
-        _TerminalAppsBaseDirPath,
         false,
         TestData.EnvironmentUsers,
         TestData.AppPoolInfos,
@@ -119,7 +111,6 @@ namespace UberDeployer.Tests.Core.Domain
         TestData.ProjectToFailoverClusterGroupMappings,
         TestData.WebAppProjectConfigurationOverrides,
         TestData.DbProjectConfigurationOverrides,
-        _TerminalAppsShortcutFolder,
         _ArtifactsDeploymentDirPath,
         _DomainName,
         TestData.CustomEnvMachines);
@@ -139,13 +130,12 @@ namespace UberDeployer.Tests.Core.Domain
           _AppServerMachine,
           _FailoverClusterMachineName,
           _WebMachineNames,
-          _TerminalMachineName,
+          TestData.TerminalServerMachines,
           _SchedulerServerTasksMachineNames,
           _SchedulerServerBinariesMachineNames,
           _NtServicesBaseDirPath,
           _WebAppsBaseDirPath,
           _SchedulerAppsBaseDirPath,
-          _TerminalAppsBaseDirPath,
           false,
           TestData.EnvironmentUsers,
           TestData.AppPoolInfos,
@@ -153,7 +143,6 @@ namespace UberDeployer.Tests.Core.Domain
           TestData.ProjectToFailoverClusterGroupMappings,
           TestData.WebAppProjectConfigurationOverrides,
           TestData.DbProjectConfigurationOverrides,
-          _TerminalAppsShortcutFolder,
           _ArtifactsDeploymentDirPath,
           _DomainName,
           TestData.CustomEnvMachines);
@@ -173,13 +162,12 @@ namespace UberDeployer.Tests.Core.Domain
           _AppServerMachine,
           _FailoverClusterMachineName,
           _WebMachineNames,
-          _TerminalMachineName,
+          TestData.TerminalServerMachines,
           _SchedulerServerTasksMachineNames,
           _SchedulerServerBinariesMachineNames,
           _NtServicesBaseDirPath,
           _WebAppsBaseDirPath,
           _SchedulerAppsBaseDirPath,
-          _TerminalAppsBaseDirPath,
           false,
           TestData.EnvironmentUsers,
           TestData.AppPoolInfos,
@@ -187,7 +175,6 @@ namespace UberDeployer.Tests.Core.Domain
           TestData.ProjectToFailoverClusterGroupMappings,
           TestData.WebAppProjectConfigurationOverrides,
           TestData.DbProjectConfigurationOverrides,
-          _TerminalAppsShortcutFolder,
           _ArtifactsDeploymentDirPath,
           _DomainName,
           TestData.CustomEnvMachines);

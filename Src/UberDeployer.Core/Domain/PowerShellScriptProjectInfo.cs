@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using FluentNHibernate.Conventions.AcceptanceCriteria;
 using UberDeployer.Common.SyntaxSugar;
 using UberDeployer.Core.Deployment.Tasks;
@@ -112,7 +113,8 @@ namespace UberDeployer.Core.Domain
       var terminalServerMachine = TargetMachine as TerminalServerTargetMachine;
       if (terminalServerMachine != null)
       {
-        return new [] { environmentInfo.TerminalServerMachineName };
+        return environmentInfo.TerminalServerMachines
+          .Select(x => x.MachineName);
       }
 
       var schedulerServerMachines = TargetMachine as SchedulerServerTargetMachines;

@@ -16,19 +16,17 @@ namespace UberDeployer.Agent.Proxy.Dto
 
     public List<string> WebServerMachineNames { get; set; }
 
-    public string TerminalServerMachineName { get; set; }
+    public List<TerminalServerMachine> TerminalServerMachines { get; set; }
 
     public List<string> SchedulerServerTasksMachineNames { get; set; }
 
-    public List<string> SchedulerServerBinariesMachineNames { get; set; }       
+    public List<string> SchedulerServerBinariesMachineNames { get; set; }
 
     public string NtServicesBaseDirPath { get; set; }
 
     public string WebAppsBaseDirPath { get; set; }
 
     public string SchedulerAppsBaseDirPath { get; set; }
-
-    public string TerminalAppsBaseDirPath { get; set; }
 
     public bool EnableFailoverClusteringForNtServices { get; set; }
 

@@ -8,7 +8,13 @@
   <WebServerMachineNames>
     <string>REMOTE</string>
   </WebServerMachineNames>
-  <TerminalServerMachineName>REMOTE</TerminalServerMachineName>
+  <TerminalServerMachines>
+    <TerminalServerMachineXml>
+      <MachineName>REMOTE</MachineName>
+      <AppsBaseDirPath>C:\Program Files\TerminalApps</AppsBaseDirPath>
+      <AppsShortcutFolder>C:\Users\Public\Desktop</AppsShortcutFolder>
+    </TerminalServerMachineXml>
+  </TerminalServerMachines>
   <SchedulerServerTasksMachineNames>
     <string>REMOTE</string>
   </SchedulerServerTasksMachineNames>
@@ -18,8 +24,6 @@
   <NtServicesBaseDirPath>C:\Program Files\NtServices</NtServicesBaseDirPath>
   <WebAppsBaseDirPath>C:\inetpub\wwwroot</WebAppsBaseDirPath>
   <SchedulerAppsBaseDirPath>C:\Program Files\SchedulerApps</SchedulerAppsBaseDirPath>
-  <TerminalAppsBaseDirPath>C:\Program Files\TerminalApps</TerminalAppsBaseDirPath>
-  <TerminalAppsShortcutFolder>C:\Users\Public\Desktop</TerminalAppsShortcutFolder>
   <EnableFailoverClusteringForNtServices>false</EnableFailoverClusteringForNtServices>
   <ManualDeploymentPackageDirPath></ManualDeploymentPackageDirPath>
   <DomainName>SampleDomain</DomainName>
