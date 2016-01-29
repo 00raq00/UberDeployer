@@ -392,6 +392,7 @@ namespace UberDeployer.WebApp.Core.Services
       new FunnyGif("http://38.media.tumblr.com/4968d9562f840dfff7c495a845f2d5a6/tumblr_inline_nx63weojnB1raprkq_500.gif", "When the new hardware arrives"),
       new FunnyGif("http://33.media.tumblr.com/c6d22794511b5186638874d71aa94968/tumblr_inline_nx63udSM4U1raprkq_500.gif", "Oncall handling the outage - everyone else stands, looking at their monitors"),
       new FunnyGif("http://38.media.tumblr.com/62dd34513480870cffd95043718491de/tumblr_inline_nx63plA1Oe1raprkq_500.gif", "Successful failover"),
+      new FunnyGif("http://imageshack.com/a/img903/609/rPMfo2.gif", "When you say you need a sprint just to write automated tests"),
     };
 
     public static FunnyGif GetRandomGif()
