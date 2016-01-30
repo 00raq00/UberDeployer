@@ -19,13 +19,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UberDeployer.Agent.Proxy", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UberDeployer.Common", "UberDeployer.Common\UberDeployer.Common.csproj", "{256FF6D7-F1B8-43E7-97CA-7A63455C0BE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UberDeployer.WebApp", "UberDeployer.WebApp\UberDeployer.WebApp.csproj", "{720257A5-4AAE-4891-AF33-4D98923DB86F}"
-EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "UberDeployer.Database", "UberDeployer.Database\UberDeployer.Database.sqlproj", "{14F485F0-7957-48B2-B825-BE742FB1D815}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UberDeployer.Tests", "UberDeployer.Tests\UberDeployer.Tests.csproj", "{9D43050A-2614-4022-A024-28FE293BB203}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UberDeployer.WebApp2", "UberDeployer.WebApp2\UberDeployer.WebApp2.csproj", "{3EA59DD1-93B5-43A5-92EA-1C16E52DD546}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UberDeployer.WebApp", "UberDeployer.WebApp\UberDeployer.WebApp.csproj", "{3EA59DD1-93B5-43A5-92EA-1C16E52DD546}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,10 +59,6 @@ Global
 		{256FF6D7-F1B8-43E7-97CA-7A63455C0BE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{256FF6D7-F1B8-43E7-97CA-7A63455C0BE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{256FF6D7-F1B8-43E7-97CA-7A63455C0BE6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{720257A5-4AAE-4891-AF33-4D98923DB86F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{720257A5-4AAE-4891-AF33-4D98923DB86F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{720257A5-4AAE-4891-AF33-4D98923DB86F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{720257A5-4AAE-4891-AF33-4D98923DB86F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{14F485F0-7957-48B2-B825-BE742FB1D815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{14F485F0-7957-48B2-B825-BE742FB1D815}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14F485F0-7957-48B2-B825-BE742FB1D815}.Release|Any CPU.ActiveCfg = Release|Any CPU

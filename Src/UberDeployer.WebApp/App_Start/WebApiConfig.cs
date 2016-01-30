@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace UberDeployer.WebApp2
+namespace UberDeployer.WebApp
 {
     public static class WebApiConfig
     {

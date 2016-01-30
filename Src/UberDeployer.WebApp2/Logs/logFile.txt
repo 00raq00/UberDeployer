@@ -1,2 +1,0 @@
-2015-12-20 23:09:11,906  INFO [1] - Application has started.|
-2015-12-20 23:15:55,631  INFO [1] - Application has started.|
