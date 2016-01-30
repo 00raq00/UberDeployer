@@ -22,15 +22,11 @@ namespace UberDeployer.WebApp.Core.ApiControllers
 {
   public class ApiController : UberDeployerWebAppController
   {
-    private const string _AppSettingsKey_MaxProjectConfigurationBuildsCount = "MaxProjectConfigurationBuildsCount";
-    private const string _AppSettingsKey_VisibleEnvironments = "VisibleEnvironments";
-    private const string _AppSettingsKey_DeployableEnvironments = "DeployableEnvironments";
-    private const string _AppSettingsKey_AllowedProjectConfigurations = "AllowedProjectConfigurations";
-
     private static readonly ISet<string> _visibleEnvironments;
     private static readonly ISet<string> _deployableEnvironments;
     private static readonly ISet<string> _allowedProjectConfigurations;
     private static readonly int _maxProjectConfigurationBuildsCount;
+    private static readonly bool _showOnlyPinnedProductionBuilds;
 
     private readonly ISessionService _sessionService;
     private readonly IAgentService _agentService;
@@ -38,14 +34,11 @@ namespace UberDeployer.WebApp.Core.ApiControllers
 
     static ApiController()
     {
-      string visibleEnvironmentsStr = AppSettingsUtils.ReadAppSettingString(_AppSettingsKey_VisibleEnvironments);
-      string deployableEnvironmentsStr = AppSettingsUtils.ReadAppSettingString(_AppSettingsKey_DeployableEnvironments);
-      string allowedProjectConfigurationsStr = AppSettingsUtils.ReadAppSettingString(_AppSettingsKey_AllowedProjectConfigurations);
-
-      _visibleEnvironments = ParseAppSettingSet(visibleEnvironmentsStr);
-      _deployableEnvironments = ParseAppSettingSet(deployableEnvironmentsStr);
-      _allowedProjectConfigurations = ParseAppSettingSet(allowedProjectConfigurationsStr);
-      _maxProjectConfigurationBuildsCount = AppSettingsUtils.ReadAppSettingInt(_AppSettingsKey_MaxProjectConfigurationBuildsCount);
+      _visibleEnvironments = ParseAppSettingSet(AppSettingsUtils.ReadAppSettingString("VisibleEnvironments"));
+      _deployableEnvironments = ParseAppSettingSet(AppSettingsUtils.ReadAppSettingString("DeployableEnvironments"));
+      _allowedProjectConfigurations = ParseAppSettingSet(AppSettingsUtils.ReadAppSettingString("AllowedProjectConfigurations"));
+      _maxProjectConfigurationBuildsCount = AppSettingsUtils.ReadAppSettingInt("MaxProjectConfigurationBuildsCount");
+      _showOnlyPinnedProductionBuilds = AppSettingsUtils.ReadAppSettingBool("ShowOnlyPinnedProductionBuilds");
     }
 
     public ApiController(ISessionService sessionService, IAgentService agentService, IDeploymentStateProvider deploymentStateProvider)
@@ -169,12 +162,15 @@ namespace UberDeployer.WebApp.Core.ApiControllers
 
       var projectConfigurationModel = new ProjectConfigurationModel(projectConfigurationName);
 
+      var isProductionConfiguration = string.IsNullOrEmpty(projectConfigurationModel.BranchName);
+
       List<ProjectConfigurationBuildViewModel> projectConfigurationBuildViewModels =
         _agentService.GetProjectConfigurationBuilds(
           projectName,
           projectConfigurationModel.ConfigurationName,
           projectConfigurationModel.BranchName,
-          _maxProjectConfigurationBuildsCount)
+          _maxProjectConfigurationBuildsCount,
+          _showOnlyPinnedProductionBuilds && isProductionConfiguration)
           .Select(
             pcb =>
               new ProjectConfigurationBuildViewModel

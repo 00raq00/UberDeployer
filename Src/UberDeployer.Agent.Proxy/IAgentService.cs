@@ -41,7 +41,7 @@ namespace UberDeployer.Agent.Proxy
     [OperationContract]
     [FaultContract(typeof(ProjectNotFoundFault))]
     [FaultContract(typeof(ProjectConfigurationNotFoundFault))]
-    List<ProjectConfigurationBuild> GetProjectConfigurationBuilds(string projectName, string projectConfigurationName, string branchName, int maxCount);
+    List<ProjectConfigurationBuild> GetProjectConfigurationBuilds(string projectName, string projectConfigurationName, string branchName, int maxCount, bool onlyPinned);
 
     [OperationContract]
     [FaultContract(typeof(ProjectNotFoundFault))]
