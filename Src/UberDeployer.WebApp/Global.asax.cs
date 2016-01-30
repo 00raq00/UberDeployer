@@ -1,36 +1,23 @@
 ﻿using System;
 using System.Reflection;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
-using UberDeployer.Common;
+
 using log4net;
 using log4net.Config;
 
+using UberDeployer.Common;
 using UberDeployer.WebApp.Core.Infrastructure;
 
 namespace UberDeployer.WebApp
 {
-  public class MvcApplication : HttpApplication
+  public class Global : HttpApplication
   {
     private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-    public static void RegisterGlobalFilters(GlobalFilterCollection filters)
-    {
-      filters.Add(new HandleErrorAttribute());
-    }
-
-    public static void RegisterRoutes(RouteCollection routes)
-    {
-      routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
-      routes.MapRoute(
-        "Default",
-        "{controller}/{action}/{id}",
-        new { controller = "Deployment", action = "Index", id = UrlParameter.Optional });
-    }
-
-    protected void Application_Start()
+    private void Application_Start(object sender, EventArgs e)
     {
       GlobalContext.Properties["applicationName"] = "UberDeployer.WebApp";
       XmlConfigurator.Configure();
@@ -41,9 +28,12 @@ namespace UberDeployer.WebApp
 
       AreaRegistration.RegisterAllAreas();
 
-      RegisterGlobalFilters(GlobalFilters.Filters);
-      RegisterRoutes(RouteTable.Routes);
-      
+      GlobalConfiguration.Configure(WebApiConfig.Register);
+
+      RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+      GlobalFilters.Filters.Add(new HandleErrorAttribute());
+
       _log.InfoIfEnabled(() => "Application has started.");
     }
 
