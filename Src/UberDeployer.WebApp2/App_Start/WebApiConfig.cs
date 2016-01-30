@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace UberDeployer.WebApp2
 {
@@ -9,16 +6,18 @@ namespace UberDeployer.WebApp2
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+          // Disabled till ApiController will be changed to proper WebApi controller
 
-            // Web API routes
-            config.MapHttpAttributeRoutes();
+          // Web API configuration and services
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+          // Web API routes
+          //            config.MapHttpAttributeRoutes();
+          //
+          //            config.Routes.MapHttpRoute(
+          //                name: "DefaultApi",
+          //                routeTemplate: "api/{controller}/{id}",
+          //                defaults: new { id = RouteParameter.Optional }
+          //            );
         }
     }
 }
