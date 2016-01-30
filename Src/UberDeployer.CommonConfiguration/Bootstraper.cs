@@ -75,25 +75,6 @@ namespace UberDeployer.CommonConfiguration
           .LifeStyle.Is(LifestyleType.Transient));
 
       container.Register(
-        Component.For<ITeamCityClient>()
-          .UsingFactoryMethod(
-            () =>
-            {
-              var appConfig = container.Resolve<IApplicationConfiguration>();
-
-              var client = new TeamCityClient(
-                appConfig.TeamCityHostName,
-                appConfig.TeamCityPort,
-                appConfig.TeamCityUserName,
-                appConfig.TeamCityPassword);
-
-              container.Release(appConfig);
-
-              return client;
-            })
-          .LifeStyle.Transient);
-
-      container.Register(
         Component.For<ITeamCityRestClient>()
           .UsingFactoryMethod(
             () =>

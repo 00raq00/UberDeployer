@@ -32,8 +32,6 @@ namespace UberDeployer.Core
 
     IDeploymentRequestRepository CreateDeploymentRequestRepository();
 
-    ITeamCityClient CreateTeamCityClient();
-
     INtServiceManager CreateNtServiceManager();
 
     IIisManager CreateIIisManager();
