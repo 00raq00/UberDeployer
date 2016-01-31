@@ -1,0 +1,53 @@
+{
+  "Name": "Local",
+  "IsVisibleToClients": "true",
+  "ConfigurationTemplateName": "local",
+  "AppServerMachineName": "localhost",
+  "FailoverClusterMachineName": [],
+  "WebServerMachineNames": [
+    "localhost"
+  ],
+  "TerminalServerMachines": [
+    {
+      "MachineName": "localhost",
+      "AppsBaseDirPath": "C:\\Program Files\\TerminalApps",
+      "AppsShortcutFolder": "C:\\AppShortcuts"
+    }
+  ],
+  "SchedulerServerTasksMachineNames": [
+    "localhost"
+  ],
+  "SchedulerServerBinariesMachineNames": [
+    "localhost"
+  ],
+  "NtServicesBaseDirPath": "E:\\APPS",
+  "WebAppsBaseDirPath": "C:\\inetpub\\wwwroot",
+  "SchedulerAppsBaseDirPath": "C:\\Program Files\\SchedulerApps",
+  "EnableFailoverClusteringForNtServices": "false",
+  "ManualDeploymentPackageDirPath": [],
+  "DomainName": "SampleDomain",
+  "EnvironmentUsers": [
+    {
+      "Id": "Sample.User",
+      "UserName": "UberDeployer"
+    }
+  ],
+  "AppPoolInfos": [
+    {
+      "Id": "ASP.NET v4.0",
+      "Name": "ASP.NET v4.0",
+      "Version": "V4_0",
+      "Mode": "Integrated"
+    }
+  ],
+  "DatabaseServers": [
+    {
+      "Id": "Default",
+      "MachineName": "localhost\\mssqlserver2012",
+      "DataDirPath": "C:\\Program Files\\Microsoft SQL Server\\MSSQL11.MSSQLSERVER2012\\MSSQL\\DATA",
+      "LogDirPath": "C:\\Program Files\\Microsoft SQL Server\\MSSQL11.MSSQLSERVER2012\\MSSQL\\DATA"
+    }
+  ],
+  "WebAppProjectConfigurationOverrides": "",
+  "DbProjectConfigurationOverrides": ""
+}

@@ -1,0 +1,14 @@
+{
+  "TeamCityHostName": "teamcity",
+  "TeamCityPort": "90",
+  "TeamCityUserName": "guest",
+  "TeamCityPassword": "guest",
+  "ScExePath": "C:\\Windows\\System32\\sc.exe",
+  "ConnectionString": "Database=UberDeployer;Server=.;Integrated Security=SSPI;Application Name=UberDeployer",
+  "WebAppInternalApiEndpointUrl": "http://localhost/UberDeployer.WebApp/InternalApi/",
+  "WebAsynchronousPasswordCollectorMaxWaitTimeInSeconds": "45",
+  "ManualDeploymentPackageCurrentDateFormat": "yyyy.MM.dd",
+  "AgentServiceEnvironmentName": "server",
+  "SqlPackageDirPath": [],
+  "DeployDependentProjects": "true"
+}

@@ -1,0 +1,80 @@
+{
+  "Name": "Remote",
+  "IsVisibleToClients": "true",
+  "ConfigurationTemplateName": "Prod",
+  "AppServerMachineName": "REMOTE",
+  "FailoverClusterMachineName": "REMOTE_CLUSTER",
+  "WebServerMachineNames": [
+    "REMOTE"
+  ],
+  "TerminalServerMachines": [
+    {
+      "MachineName": "REMOTE",
+      "AppsBaseDirPath": "C:\\Program Files\\TerminalApps",
+      "AppsShortcutFolder": "C:\\Users\\Public\\Desktop"
+    }
+  ],
+  "SchedulerServerTasksMachineNames": [
+    "REMOTE"
+  ],
+  "SchedulerServerBinariesMachineNames": [
+    "REMOTE"
+  ],
+  "NtServicesBaseDirPath": "C:\\Program Files\\NtServices",
+  "WebAppsBaseDirPath": "C:\\inetpub\\wwwroot",
+  "SchedulerAppsBaseDirPath": "C:\\Program Files\\SchedulerApps",
+  "EnableFailoverClusteringForNtServices": "false",
+  "ManualDeploymentPackageDirPath": [],
+  "DomainName": "SampleDomain",
+  "EnvironmentUsers": [
+    {
+      "Id": "Sample.User",
+      "UserName": "UberDeployer"
+    }
+  ],
+  "AppPoolInfos": [
+    {
+      "Id": "ASP.NET v4.0",
+      "Name": "ASP.NET v4.0",
+      "Version": "V4_0",
+      "Mode": "Integrated"
+    },
+    {
+      "Id": "Alternative",
+      "Name": "Alternative",
+      "Version": "V4_0",
+      "Mode": "Integrated"
+    }
+  ],
+  "DatabaseServers": [
+    {
+      "Id": "Default",
+      "MachineName": "REMOTE"
+    },
+    {
+      "Id": "Alternative",
+      "MachineName": "REMOTE2"
+    }
+  ],
+  "ProjectToFailoverClusterGroupMappings": [
+    {
+      "ProjectName": "UberDeployer.SampleNtService",
+      "ClusterGroupName": "UD_SAMPLE"
+    }
+  ],
+  "WebAppProjectConfigurationOverrides": [
+    {
+      "@projectName": "UberDeployer.SampleWebApp",
+      "AppPoolId": "Alternative",
+      "WebSiteName": "Default Web Site 2",
+      "WebAppDirName": "UberDeployer.SampleWebApp2",
+      "WebAppName": "UberDeployer.SampleWebApp2"
+    }
+  ],
+  "DbProjectConfigurationOverrides": [
+    {
+      "@projectName": "UberDeployer.SampleDb",
+      "DatabaseServerId": "Alternative"
+    }
+  ]
+}

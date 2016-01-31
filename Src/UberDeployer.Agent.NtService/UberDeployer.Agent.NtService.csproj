@@ -127,6 +127,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Data\applicationConfiguration.json">
+      <Link>Data\applicationConfiguration.json</Link>
+    </None>
+    <None Include="..\..\Data\environmentInfoLocal.json">
+      <Link>Data\environmentInfoLocal.json</Link>
+    </None>
+    <None Include="..\..\Data\environmentInfoRemote.json">
+      <Link>Data\environmentInfoRemote.json</Link>
+    </None>
+    <None Include="..\..\Data\projectInfos.json">
+      <Link>Data\projectInfos.json</Link>
+    </None>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
