@@ -338,20 +338,6 @@
     </Compile>
     <Compile Include="TeamCity\ITeamCityRestClient.cs" />
     <Compile Include="TeamCity\MockedTeamCityRestClient.cs" />
-    <Compile Include="TeamCity\Models\BuildsLocation.cs" />
-    <Compile Include="TeamCity\Models\BuildStatus.cs" />
-    <Compile Include="TeamCity\Models\ProjectBranch.cs" />
-    <Compile Include="TeamCity\Models\ProjectBranchList.cs" />
-    <Compile Include="TeamCity\Models\ProjectConfigurationBuild.cs" />
-    <Compile Include="TeamCity\Models\ProjectConfigurationDetails.cs" />
-    <Compile Include="TeamCity\Models\ProjectConfigurationsList.cs" />
-    <Compile Include="TeamCity\Models\ProjectConfiguration.cs" />
-    <Compile Include="TeamCity\Models\ProjectDetails.cs" />
-    <Compile Include="TeamCity\Models\ProjectConfigurationBuildsList.cs" />
-    <Compile Include="TeamCity\ITeamCityClient.cs" />
-    <Compile Include="TeamCity\Models\Project.cs" />
-    <Compile Include="TeamCity\Models\ProjectsList.cs" />
-    <Compile Include="TeamCity\TeamCityClient.cs" />
     <Compile Include="Domain\WebServiceProjectInfo.cs" />
     <Compile Include="DataAccess\Xml\ProjectInfo\XmlProjectInfoRepository.cs" />
     <Compile Include="TeamCity\TeamCityRestClient.cs" />

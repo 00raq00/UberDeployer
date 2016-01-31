@@ -104,23 +104,26 @@ namespace UberDeployer.Core.TeamCity
       return buildTypes;
     }
 
-    public IEnumerable<TeamCityBuild> GetBuilds(string buildTypeId, string branchName, int start, int count, bool onlySuccessful)
+    public IEnumerable<TeamCityBuild> GetBuilds(string buildTypeId, string branchName, int start, int count, bool onlySuccessful, bool onlyPinned)
     {
       Guard.NotNullNorEmpty(buildTypeId, "buildTypeId");
 
-      string branchLocator = string.IsNullOrWhiteSpace(branchName) ? string.Empty : string.Format("locator=branch:(name:{0})&", branchName);
+      string pinnedLocator = onlyPinned ? "true" : "any";
 
-      string statusLocator = onlySuccessful ? "&status=SUCCESS" : string.Empty;
+      string statusLocator = onlySuccessful ? ",status:SUCCESS" : string.Empty;
+
+      string branchLocator = string.IsNullOrWhiteSpace(branchName) ? string.Empty : string.Format(",branch:(name:{0})", branchName);
 
       var response =
         ExecuteRequest(
-          string.Format(
-            "buildTypes/id:{0}/builds?{1}start={2}&count={3}{4}",
+           string.Format(
+            "builds?locator=buildType:(id:{0}),start:{1},count:{2},pinned:{3}{4}{5}",
             buildTypeId,
-            branchLocator,
-            start.ToString(),
-            count.ToString(),
-            statusLocator));
+            start,
+            count,
+            pinnedLocator,
+            statusLocator,
+            branchLocator));
 
       var builds = ParseResponse<List<TeamCityBuild>>(response["build"]);
 

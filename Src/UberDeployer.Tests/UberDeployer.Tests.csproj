@@ -158,8 +158,6 @@
     <Compile Include="Core\Management\Iis\MsDeployBasedIisManagerTests.cs" />
     <Compile Include="Core\Management\NtServices\NtServiceDescriptorTests.cs" />
     <Compile Include="Core\Management\NtServices\ScExeBasedNtServiceManagerTests.cs" />
-    <Compile Include="Core\TeamCity\ModelsTests.cs" />
-    <Compile Include="Core\TeamCity\TeamCityClientTests.cs" />
     <Compile Include="Core\TeamCity\TeamCityRestClientTests.cs" />
     <Compile Include="Core\TestData.cs" />
     <Compile Include="Core\TestUtils\ReflectionTools.cs" />

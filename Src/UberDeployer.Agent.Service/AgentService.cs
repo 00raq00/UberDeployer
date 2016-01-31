@@ -540,7 +540,7 @@ namespace UberDeployer.Agent.Service
       }
     }
 
-    public List<ProjectConfigurationBuild> GetProjectConfigurationBuilds(string projectName, string projectConfigurationName, string branchName, int maxCount)
+    public List<ProjectConfigurationBuild> GetProjectConfigurationBuilds(string projectName, string projectConfigurationName, string branchName, int maxCount, bool onlyPinned)
     {
       try
       {
@@ -556,7 +556,7 @@ namespace UberDeployer.Agent.Service
           return new List<ProjectConfigurationBuild>();
         }
 
-        IEnumerable<TeamCityBuild> projectConfigurationBuilds = _teamCityClient.GetBuilds(teamCityBuildType.Id, branchName, 0, maxCount, true);
+        IEnumerable<TeamCityBuild> projectConfigurationBuilds = _teamCityClient.GetBuilds(teamCityBuildType.Id, branchName, 0, maxCount, true, onlyPinned);
 
         return projectConfigurationBuilds.Select(DtoMapper.Map<TeamCityBuild, ProjectConfigurationBuild>).ToList();
       }
