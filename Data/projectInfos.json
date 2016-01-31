@@ -1,106 +1,106 @@
 {
-  "ProjectInfos": [
-    {
-      "@type": "NtServiceProjectInfoXml",
-      "@allowedEnvironments": "Local,Remote",
-      "Name": "UberDeployer.SampleNtService",
-      "ArtifactsRepositoryName": "UberDeployerSamples",
-      "ArtifactsRepositoryDirName": "SampleNtService",
-      "NtServiceName": "UberDeployer.SampleNtService",
-      "NtServiceDirName": "UberDeployer.SampleNtService",
-      "NtServiceDisplayName": "UberDeployer.SampleNtService",
-      "NtServiceExeName": "UberDeployerSamples.SampleNtService.exe",
-      "NtServiceUserId": "Sample.User",
-      "DependentProjects": [
-        "SampleProject.SampleDb",
-        "SampleProject.AnotherDb"
-      ]
-    },
-    {
-      "@type": "WebAppProjectInfoXml",
-      "@allowedEnvironments": "Local,Remote",
-      "Name": "UberDeployer.SampleWebApp",
-      "ArtifactsRepositoryName": "UberDeployerSamples",
-      "ArtifactsRepositoryDirName": "SampleWebApp",
-      "AppPoolId": "Default",
-      "WebSiteName": "Default Web Site",
-      "WebAppDirName": "UberDeployer.SampleWebApp",
-      "WebAppName": "UberDeployer.SampleWebApp"
-    },
-    {
-      "@type": "SchedulerAppProjectInfoXml",
-      "@allowedEnvironments": "Local,Remote",
-      "Name": "UberDeployer.SampleSchedulerApp",
-      "ArtifactsRepositoryName": "UberDeployerSamples",
-      "ArtifactsRepositoryDirName": "SampleSchedulerApp",
-      "SchedulerAppDirName": "SampleSchedulerApp",
-      "SchedulerAppExeName": "UberDeployerSamples.SampleSchedulerApp.exe",
-      "SchedulerAppTasks": [
-        {
-          "Name": "SampleSchedulerApp",
-          "ExecutableName": "SampleSchedulerApp",
-          "UserId": "Sample.User",
-          "ScheduledHour": "12",
-          "ScheduledMinute": "0",
-          "ExecutionTimeLimitInMinutes": "1",
-          "Repetition": {
-            "Enabled": "true",
-            "Interval": "00:15:00",
-            "Duration": "1.00:00:00",
-            "StopAtDurationEnd": "true"
-          }
-        }
-      ]
-    },
-    {
-      "@type": "TerminalAppProjectInfoXml",
-      "@allowedEnvironments": "Local,Remote",
-      "Name": "UberDeployer.SampleTerminalApp",
-      "ArtifactsRepositoryName": "UberDeployerSamples",
-      "ArtifactsRepositoryDirName": "SampleTerminalApp",
-      "TerminalAppName": "UberDeployer.SampleTerminalApp",
-      "TerminalAppDirName": "UberDeployer.SampleTerminalApp",
-      "TerminalAppExeName": "UberDeployer.SampleTerminalApp.exe"
-    },
-    {
-      "@type": "DbProjectInfoXml",
-      "@allowedEnvironments": "Local,Remote",
-      "Name": "UberDeployer.SampleDb",
-      "ArtifactsRepositoryName": "UberDeployerSamples",
-      "ArtifactsRepositoryDirName": "DbScripts",
-      "ArtifactsAreNotEnvironmentSpecific": "true",
-      "DbName": "UberDeployerSample",
-      "DatabaseServerId": "Default",
-      "Users": [
-        "Username1",
-        "Username2"
-      ]
-    },
-    {
-      "@type": "DbProjectInfoXml",
-      "@allowedEnvironments": "Local,Remote",
-      "Name": "SampleProject.SampleDb",
-      "ArtifactsRepositoryName": "SampleProject.SampleDb",
-      "ArtifactsRepositoryDirName": "DbScripts",
-      "ArtifactsAreNotEnvironmentSpecific": "true",
-      "DbName": "SampleDb",
-      "DatabaseServerId": "Default",
-      "Users": [
-        "Username1"
-      ]
-    },
-    {
-      "@type": "DbProjectInfoXml",
-      "@allowedEnvironments": "Local,Remote",
-      "Name": "SampleProject.AnotherDb",
-      "ArtifactsRepositoryName": "SampleProject.AnotherDb",
-      "ArtifactsRepositoryDirName": "DbScripts",
-      "ArtifactsAreNotEnvironmentSpecific": "true",
-      "DbName": "AnotherDb",
-      "DatabaseServerId": "Default",
-      "Users": [
-        "Username1"
-      ]
-    }
-  ]
+  "ProjectInfos": [
+    {
+      "@type": "NtServiceProjectInfoXml",
+      "@allowedEnvironments": "Local,Remote",
+      "Name": "UberDeployer.SampleNtService",
+      "ArtifactsRepositoryName": "UberDeployerSamples",
+      "ArtifactsRepositoryDirName": "SampleNtService",
+      "NtServiceName": "UberDeployer.SampleNtService",
+      "NtServiceDirName": "UberDeployer.SampleNtService",
+      "NtServiceDisplayName": "UberDeployer.SampleNtService",
+      "NtServiceExeName": "UberDeployerSamples.SampleNtService.exe",
+      "NtServiceUserId": "Sample.User",
+      "DependentProjects": [
+        "SampleProject.SampleDb",
+        "SampleProject.AnotherDb"
+      ]
+    },
+    {
+      "@type": "WebAppProjectInfoXml",
+      "@allowedEnvironments": "Local,Remote",
+      "Name": "UberDeployer.SampleWebApp",
+      "ArtifactsRepositoryName": "UberDeployerSamples",
+      "ArtifactsRepositoryDirName": "SampleWebApp",
+      "AppPoolId": "Default",
+      "WebSiteName": "Default Web Site",
+      "WebAppDirName": "UberDeployer.SampleWebApp",
+      "WebAppName": "UberDeployer.SampleWebApp"
+    },
+    {
+      "@type": "SchedulerAppProjectInfoXml",
+      "@allowedEnvironments": "Local,Remote",
+      "Name": "UberDeployer.SampleSchedulerApp",
+      "ArtifactsRepositoryName": "UberDeployerSamples",
+      "ArtifactsRepositoryDirName": "SampleSchedulerApp",
+      "SchedulerAppDirName": "SampleSchedulerApp",
+      "SchedulerAppExeName": "UberDeployerSamples.SampleSchedulerApp.exe",
+      "SchedulerAppTasks": [
+        {
+          "Name": "SampleSchedulerApp",
+          "ExecutableName": "SampleSchedulerApp",
+          "UserId": "Sample.User",
+          "ScheduledHour": "12",
+          "ScheduledMinute": "0",
+          "ExecutionTimeLimitInMinutes": "1",
+          "Repetition": {
+            "Enabled": "true",
+            "Interval": "00:15:00",
+            "Duration": "1.00:00:00",
+            "StopAtDurationEnd": "true"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "TerminalAppProjectInfoXml",
+      "@allowedEnvironments": "Local,Remote",
+      "Name": "UberDeployer.SampleTerminalApp",
+      "ArtifactsRepositoryName": "UberDeployerSamples",
+      "ArtifactsRepositoryDirName": "SampleTerminalApp",
+      "TerminalAppName": "UberDeployer.SampleTerminalApp",
+      "TerminalAppDirName": "UberDeployer.SampleTerminalApp",
+      "TerminalAppExeName": "UberDeployer.SampleTerminalApp.exe"
+    },
+    {
+      "@type": "DbProjectInfoXml",
+      "@allowedEnvironments": "Local,Remote",
+      "Name": "UberDeployer.SampleDb",
+      "ArtifactsRepositoryName": "UberDeployerSamples",
+      "ArtifactsRepositoryDirName": "DbScripts",
+      "ArtifactsAreNotEnvironmentSpecific": "true",
+      "DbName": "UberDeployerSample",
+      "DatabaseServerId": "Default",
+      "Users": [
+        "Username1",
+        "Username2"
+      ]
+    },
+    {
+      "@type": "DbProjectInfoXml",
+      "@allowedEnvironments": "Local,Remote",
+      "Name": "SampleProject.SampleDb",
+      "ArtifactsRepositoryName": "SampleProject.SampleDb",
+      "ArtifactsRepositoryDirName": "DbScripts",
+      "ArtifactsAreNotEnvironmentSpecific": "true",
+      "DbName": "SampleDb",
+      "DatabaseServerId": "Default",
+      "Users": [
+        "Username1"
+      ]
+    },
+    {
+      "@type": "DbProjectInfoXml",
+      "@allowedEnvironments": "Local,Remote",
+      "Name": "SampleProject.AnotherDb",
+      "ArtifactsRepositoryName": "SampleProject.AnotherDb",
+      "ArtifactsRepositoryDirName": "DbScripts",
+      "ArtifactsAreNotEnvironmentSpecific": "true",
+      "DbName": "AnotherDb",
+      "DatabaseServerId": "Default",
+      "Users": [
+        "Username1"
+      ]
+    }
+  ]
 }

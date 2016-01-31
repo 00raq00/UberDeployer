@@ -128,16 +128,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Data\applicationConfiguration.json">
-      <Link>Data\applicationConfiguration.json</Link>
+      <Link>Data\Json\applicationConfiguration.json</Link>
     </None>
     <None Include="..\..\Data\environmentInfoLocal.json">
-      <Link>Data\environmentInfoLocal.json</Link>
+      <Link>Data\Json\environmentInfoLocal.json</Link>
     </None>
     <None Include="..\..\Data\environmentInfoRemote.json">
-      <Link>Data\environmentInfoRemote.json</Link>
+      <Link>Data\Json\environmentInfoRemote.json</Link>
     </None>
     <None Include="..\..\Data\projectInfos.json">
-      <Link>Data\projectInfos.json</Link>
+      <Link>Data\Json\projectInfos.json</Link>
     </None>
     <None Include="App.config">
       <SubType>Designer</SubType>
