@@ -1,10 +1,20 @@
 ﻿using System;
+
 using log4net;
+using log4net.Core;
 
 namespace UberDeployer.Common
 {
   public static class Log4NetExtensions
   {
+    public static void TraceIfEnabled(this ILog log, Func<object> messageFunc, Exception exception = null)
+    {
+      if (log.Logger.IsEnabledFor(Level.Trace))
+      {
+        log.Logger.Log(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, Level.Trace, messageFunc(), exception);
+      }
+    }
+
     public static void DebugIfEnabled(this ILog log, Func<object> messageFunc)
     {
       if (log.IsDebugEnabled)

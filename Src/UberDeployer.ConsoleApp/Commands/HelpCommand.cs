@@ -1,4 +1,4 @@
-﻿using UberDeployer.ConsoleCommander;
+﻿using UberDeployer.ConsoleApp.Commander;
 
 namespace UberDeployer.ConsoleApp.Commands
 {

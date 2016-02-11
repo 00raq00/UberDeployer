@@ -12,6 +12,8 @@ using UberDeployer.Core.DataAccess.Json;
 using UberDeployer.Core.DataAccess;
 using UberDeployer.Core.DataAccess.NHibernate;
 using UberDeployer.Core.DataAccess.Xml;
+using UberDeployer.Core.DataAccess.Xml.EnvironmentInfo;
+using UberDeployer.Core.DataAccess.Xml.ProjectInfo;
 using UberDeployer.Core.Deployment;
 using UberDeployer.Core.Deployment.Pipeline;
 using UberDeployer.Core.Deployment.Pipeline.Modules;
@@ -71,25 +73,6 @@ namespace UberDeployer.CommonConfiguration
         Component.For<IDirectoryAdapter>()
           .ImplementedBy<DirectoryAdapter>()
           .LifeStyle.Is(LifestyleType.Transient));
-
-      container.Register(
-        Component.For<ITeamCityClient>()
-          .UsingFactoryMethod(
-            () =>
-            {
-              var appConfig = container.Resolve<IApplicationConfiguration>();
-
-              var client = new TeamCityClient(
-                appConfig.TeamCityHostName,
-                appConfig.TeamCityPort,
-                appConfig.TeamCityUserName,
-                appConfig.TeamCityPassword);
-
-              container.Release(appConfig);
-
-              return client;
-            })
-          .LifeStyle.Transient);
 
       container.Register(
         Component.For<ITeamCityRestClient>()

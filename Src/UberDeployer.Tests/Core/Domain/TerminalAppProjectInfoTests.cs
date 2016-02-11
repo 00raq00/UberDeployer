@@ -80,7 +80,7 @@ namespace UberDeployer.Tests.Core.Domain
     public void Test_GetTargetFolders_RunsProperly_WhenAllIsWell()
     {
       var envInfo = DeploymentDataGenerator.GetEnvironmentInfo();
-
+      
       var projectInfo =
         new TerminalAppProjectInfo(
           _Name,
@@ -92,10 +92,12 @@ namespace UberDeployer.Tests.Core.Domain
           _TerminalAppDirName,
           _TerminalAppExeName);
 
-      string terminalServerNetworkPath =
-        envInfo.GetTerminalServerNetworkPath(
-          string.Format("{0}{1}\\1.0.0.0", envInfo.TerminalAppsBaseDirPath, projectInfo.TerminalAppDirName));
+      TerminalServerMachine terminalServerMachine = envInfo.TerminalServerMachines.First();
 
+      string targetAppDir = string.Format("{0}{1}\\1.0.0.0", terminalServerMachine.AppsBaseDirPath, projectInfo.TerminalAppDirName);
+
+      string terminalServerNetworkPath = EnvironmentInfo.GetNetworkPath(terminalServerMachine.MachineName, targetAppDir);
+      
       _directoryAdapterFake.Setup(
         da => da.GetDirectories(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<SearchOption>()))
         .Returns(new[] { terminalServerNetworkPath });

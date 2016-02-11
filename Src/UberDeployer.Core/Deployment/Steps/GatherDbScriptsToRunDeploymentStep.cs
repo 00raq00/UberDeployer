@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UberDeployer.Common.SyntaxSugar;
-using UberDeployer.Core.DbDiff;
+using UberDeployer.Core.DataAccess;
 using UberDeployer.Core.Domain;
 using UberDeployer.Core.Management.Db;
 

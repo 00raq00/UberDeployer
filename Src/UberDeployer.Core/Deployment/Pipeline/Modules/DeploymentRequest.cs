@@ -9,7 +9,7 @@ namespace UberDeployer.Core.Deployment.Pipeline.Modules
       Id = -1;
     }
 
-    public virtual int Id { get; private set; }
+    public virtual int Id { get; set; }
 
     public virtual DateTime DateStarted { get; set; }
     

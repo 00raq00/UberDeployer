@@ -19,5 +19,7 @@ namespace UberDeployer.Core.Management.Db.DbManager
     void AddUserRole(string databaseName, string username, string roleName);
 
     bool CheckIfUserIsInRole(string databaseName, string username, string roleName);
+    
+    void DropAllDatabaseSnapshots(string databaseName);
   }
 }

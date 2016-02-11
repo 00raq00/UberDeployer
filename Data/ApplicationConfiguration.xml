@@ -6,7 +6,7 @@
   <TeamCityUserName>guest</TeamCityUserName>
   <TeamCityPassword>guest</TeamCityPassword>
   <ScExePath>C:\Windows\System32\sc.exe</ScExePath>
-  <ConnectionString>Database=UberDeployer;Server=alias_dev_sql03;Integrated Security=SSPI;Application Name=UberDeployer</ConnectionString>
+  <ConnectionString>Database=UberDeployer;Server=.;Integrated Security=SSPI;Application Name=UberDeployer</ConnectionString>
   <WebAppInternalApiEndpointUrl>http://localhost/UberDeployer.WebApp/InternalApi/</WebAppInternalApiEndpointUrl>
   <WebAsynchronousPasswordCollectorMaxWaitTimeInSeconds>45</WebAsynchronousPasswordCollectorMaxWaitTimeInSeconds>
   <ManualDeploymentPackageCurrentDateFormat>yyyy.MM.dd</ManualDeploymentPackageCurrentDateFormat>

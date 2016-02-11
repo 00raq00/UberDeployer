@@ -88,34 +88,40 @@ namespace UberDeployer.Core.Deployment.Tasks
 
       AddSubTask(extractVersionDeploymentStep);
 
-      var prepareVersionedFolderDeploymentStep =
-        new PrepareVersionedFolderDeploymentStep(
-          DeploymentInfo.ProjectName,
-          environmentInfo.GetTerminalServerNetworkPath(environmentInfo.TerminalAppsBaseDirPath),
-          projectInfo.TerminalAppDirName,
-          new Lazy<string>(() => extractVersionDeploymentStep.Version));
+      foreach (var terminalServerMachine in environmentInfo.TerminalServerMachines)
+      {
+        string appsBaseDirNetworkPath = EnvironmentInfo.GetNetworkPath(terminalServerMachine.MachineName, terminalServerMachine.AppsBaseDirPath);
+        string shortcutFolderNetworkPath = EnvironmentInfo.GetNetworkPath(terminalServerMachine.MachineName, terminalServerMachine.AppsShortcutFolder);
 
-      AddSubTask(prepareVersionedFolderDeploymentStep);
+        var prepareVersionedFolderDeploymentStep =
+          new PrepareVersionedFolderDeploymentStep(
+            DeploymentInfo.ProjectName,
+            appsBaseDirNetworkPath,
+            projectInfo.TerminalAppDirName,
+            new Lazy<string>(() => extractVersionDeploymentStep.Version));
 
-      AddSubTask(
-        new CleanDirectoryDeploymentStep(
-          _directoryAdapter,
-          _fileAdapter,
-          new Lazy<string>(() => prepareVersionedFolderDeploymentStep.VersionDeploymentDirPath),
-          excludedDirs: new string[] { }));
+        AddSubTask(prepareVersionedFolderDeploymentStep);
 
-      AddSubTask(
-        new CopyFilesDeploymentStep(
-          _directoryAdapter,
-          new Lazy<string>(() => extractArtifactsDeploymentStep.BinariesDirPath),
-          new Lazy<string>(() => prepareVersionedFolderDeploymentStep.VersionDeploymentDirPath)));
+        AddSubTask(
+          new CleanDirectoryDeploymentStep(
+            _directoryAdapter,
+            _fileAdapter,
+            new Lazy<string>(() => prepareVersionedFolderDeploymentStep.VersionDeploymentDirPath),
+            excludedDirs: new string[] { }));
 
-      AddSubTask(
-        new UpdateApplicationShortcutDeploymentStep(
-          environmentInfo.GetTerminalServerNetworkPath(environmentInfo.TerminalAppsShortcutFolder),
-          new Lazy<string>(() => prepareVersionedFolderDeploymentStep.VersionDeploymentDirPath),
-          projectInfo.TerminalAppExeName,
-          projectInfo.Name));
+        AddSubTask(
+          new CopyFilesDeploymentStep(
+            _directoryAdapter,
+            new Lazy<string>(() => extractArtifactsDeploymentStep.BinariesDirPath),
+            new Lazy<string>(() => prepareVersionedFolderDeploymentStep.VersionDeploymentDirPath)));
+
+        AddSubTask(
+          new UpdateApplicationShortcutDeploymentStep(
+            shortcutFolderNetworkPath,
+            new Lazy<string>(() => prepareVersionedFolderDeploymentStep.VersionDeploymentDirPath),
+            projectInfo.TerminalAppExeName,
+            projectInfo.Name));
+      }
     }
 
     public override string Description

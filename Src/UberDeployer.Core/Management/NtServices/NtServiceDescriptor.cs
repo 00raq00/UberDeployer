@@ -6,7 +6,7 @@ namespace UberDeployer.Core.Management.NtServices
   public class NtServiceDescriptor
   {
     #region Constructor(s)
-
+    
     public NtServiceDescriptor(string serviceName, string serviceExecutablePath, ServiceAccount serviceAccount, ServiceStartMode serviceStartMode, string serviceDisplayName = null, string serviceUserName = null, string servicePassword = null)
     {
       if (string.IsNullOrEmpty(serviceName))

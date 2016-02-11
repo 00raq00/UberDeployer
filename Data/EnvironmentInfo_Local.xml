@@ -8,7 +8,13 @@
   <WebServerMachineNames>
     <string>localhost</string>
   </WebServerMachineNames>
-  <TerminalServerMachineName>localhost</TerminalServerMachineName>
+  <TerminalServerMachines>
+    <TerminalServerMachineXml>
+      <MachineName>localhost</MachineName>
+      <AppsBaseDirPath>C:\Program Files\TerminalApps</AppsBaseDirPath>
+      <AppsShortcutFolder>C:\AppShortcuts</AppsShortcutFolder>
+    </TerminalServerMachineXml>
+  </TerminalServerMachines>
   <SchedulerServerTasksMachineNames>
     <string>localhost</string>
   </SchedulerServerTasksMachineNames>
@@ -17,9 +23,7 @@
   </SchedulerServerBinariesMachineNames>
   <NtServicesBaseDirPath>E:\APPS</NtServicesBaseDirPath>
   <WebAppsBaseDirPath>C:\inetpub\wwwroot</WebAppsBaseDirPath>
-  <SchedulerAppsBaseDirPath>C:\Program Files\SchedulerApps</SchedulerAppsBaseDirPath>
-  <TerminalAppsBaseDirPath>C:\Program Files\TerminalApps</TerminalAppsBaseDirPath>
-  <TerminalAppsShortcutFolder>C:\AppShortcuts</TerminalAppsShortcutFolder>
+  <SchedulerAppsBaseDirPath>C:\Program Files\SchedulerApps</SchedulerAppsBaseDirPath>  
   <EnableFailoverClusteringForNtServices>false</EnableFailoverClusteringForNtServices>
   <ManualDeploymentPackageDirPath></ManualDeploymentPackageDirPath>
   <DomainName>SampleDomain</DomainName>

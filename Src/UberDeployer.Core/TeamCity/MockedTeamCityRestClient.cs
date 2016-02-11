@@ -27,7 +27,7 @@ namespace UberDeployer.Core.TeamCity
       return Enumerable.Empty<TeamCityBuildType>();
     }
 
-    public IEnumerable<TeamCityBuild> GetBuilds(string buildTypeId, string branchName, int start, int count, bool onlySuccessful)
+    public IEnumerable<TeamCityBuild> GetBuilds(string buildTypeId, string branchName, int start, int count, bool onlySuccessful, bool onlyPinned)
     {
       return Enumerable.Empty<TeamCityBuild>();
     }

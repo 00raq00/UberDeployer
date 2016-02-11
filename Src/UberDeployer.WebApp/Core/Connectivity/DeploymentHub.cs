@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Microsoft.AspNet.SignalR;
+
 using UberDeployer.Common.SyntaxSugar;
 using UberDeployer.WebApp.Core.Models.Api;
 using UberDeployer.WebApp.Core.Services;

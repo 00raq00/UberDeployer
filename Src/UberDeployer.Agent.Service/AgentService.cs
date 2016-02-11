@@ -16,11 +16,9 @@ using UberDeployer.Common;
 using UberDeployer.Common.SyntaxSugar;
 using UberDeployer.CommonConfiguration;
 using UberDeployer.Core.Configuration;
-using UberDeployer.Core.DataAccess.WebClient;
 using UberDeployer.Core.Deployment;
 using UberDeployer.Core.Deployment.Pipeline;
 using UberDeployer.Core.Deployment.Pipeline.Modules;
-using UberDeployer.Core.Deployment.Steps;
 using UberDeployer.Core.Deployment.Tasks;
 using UberDeployer.Core.Domain;
 using UberDeployer.Core.Domain.Input;
@@ -38,7 +36,6 @@ using DiagnosticMessage = UberDeployer.Core.Deployment.DiagnosticMessage;
 using DiagnosticMessageType = UberDeployer.Core.Deployment.DiagnosticMessageType;
 using EnvironmentInfo = UberDeployer.Core.Domain.EnvironmentInfo;
 using MachineSpecificProjectVersion = UberDeployer.Agent.Proxy.Dto.Metadata.MachineSpecificProjectVersion;
-using Project = UberDeployer.Core.TeamCity.Models.Project;
 using ProjectInfo = UberDeployer.Core.Domain.ProjectInfo;
 using ProjectType = UberDeployer.Core.Domain.ProjectType;
 using UberDeployerAgentProjectInfo = UberDeployer.Core.Domain.UberDeployerAgentProjectInfo;
@@ -150,6 +147,7 @@ namespace UberDeployer.Agent.Service
       catch (Exception exc)
       {
         HandleDeploymentException(exc, uniqueClientId);
+        throw;
       }
     }
 
@@ -188,6 +186,7 @@ namespace UberDeployer.Agent.Service
       catch (Exception exc)
       {
         HandleDeploymentException(exc, uniqueClientId);
+        throw;
       }
     }
 
@@ -224,6 +223,7 @@ namespace UberDeployer.Agent.Service
       catch (Exception exc)
       {
         HandleDeploymentException(exc, uniqueClientId);
+        throw;
       }
     }
 
@@ -292,7 +292,8 @@ namespace UberDeployer.Agent.Service
     private IEnumerable<ProjectDeploymentData> CreateProjectEnvironmentDeployments(Guid uniqueClientId, EnvironmentDeployInfo environmentDeployInfo, IEnumerable<ProjectToDeploy> projects)
     {
       var projectDeployments = new List<ProjectDeploymentData>();
-      var priorityProjectDeplyoments = new List<ProjectDeploymentData>();
+      var priorityDbProjectDeployments = new List<ProjectDeploymentData>();
+      var priorityNtProjectDeployments = new List<ProjectDeploymentData>();
 
       EnvironmentInfo environmentInfo = _environmentInfoRepository.FindByName(environmentDeployInfo.TargetEnvironment);
 
@@ -333,7 +334,7 @@ namespace UberDeployer.Agent.Service
               ObjectFactory.Instance.CreateEnvironmentInfoRepository(),
               ObjectFactory.Instance.CreateDbManagerFactory());
 
-            priorityProjectDeplyoments.Add(new ProjectDeploymentData(deploymentInfo, projectInfo, dropDbProjectDeploymentTask));
+            priorityDbProjectDeployments.Add(new ProjectDeploymentData(deploymentInfo, projectInfo, dropDbProjectDeploymentTask));
 
             deploymentTask =
               new DeployDbProjectDeploymentTask(
@@ -352,6 +353,13 @@ namespace UberDeployer.Agent.Service
           }
           else if (projectInfo.Type == ProjectType.NtService)
           {
+            DeploymentTask stopNtServiceTask = new StopNtServiceDeploymentTask(
+              ObjectFactory.Instance.CreateProjectInfoRepository(),
+              ObjectFactory.Instance.CreateEnvironmentInfoRepository(),
+              ObjectFactory.Instance.CreateNtServiceManager());
+
+            priorityNtProjectDeployments.Add(new ProjectDeploymentData(deploymentInfo, projectInfo, stopNtServiceTask));
+
             deploymentTask = new DeployNtServiceDeploymentTask(
               ObjectFactory.Instance.CreateProjectInfoRepository(),
               ObjectFactory.Instance.CreateEnvironmentInfoRepository(),
@@ -379,9 +387,10 @@ namespace UberDeployer.Agent.Service
         }
       }
 
-      priorityProjectDeplyoments.AddRange(projectDeployments);
+      priorityNtProjectDeployments.AddRange(priorityDbProjectDeployments);
+      priorityNtProjectDeployments.AddRange(projectDeployments);
 
-      return priorityProjectDeplyoments;
+      return priorityNtProjectDeployments;
     }
 
     private static InputParams BuildInputParams(ProjectInfo projectInfo, EnvironmentInfo environmentInfo)
@@ -441,180 +450,252 @@ namespace UberDeployer.Agent.Service
 
     public List<Proxy.Dto.ProjectInfo> GetProjectInfos(Proxy.Dto.ProjectFilter projectFilter)
     {
-      if (projectFilter == null)
+      try
       {
-        throw new ArgumentNullException("projectFilter");
-      }
+        if (projectFilter == null)
+        {
+          throw new ArgumentNullException("projectFilter");
+        }
 
-      IEnumerable<ProjectInfo> projectInfos =
-        _projectInfoRepository.GetAll();
+        IEnumerable<ProjectInfo> projectInfos =
+          _projectInfoRepository.GetAll();
 
-      if (!string.IsNullOrEmpty(projectFilter.Name))
-      {
-        projectInfos =
+        if (!string.IsNullOrEmpty(projectFilter.Name))
+        {
+          projectInfos =
+            projectInfos
+              .Where(pi => !string.IsNullOrEmpty(pi.Name) && pi.Name.IndexOf(projectFilter.Name, StringComparison.CurrentCultureIgnoreCase) > -1);
+        }
+
+        return
           projectInfos
-            .Where(pi => !string.IsNullOrEmpty(pi.Name) && pi.Name.IndexOf(projectFilter.Name, StringComparison.CurrentCultureIgnoreCase) > -1);
+            .Select(DtoMapper.Map<ProjectInfo, Proxy.Dto.ProjectInfo>)
+            .ToList();
       }
-
-      return
-        projectInfos
-          .Select(DtoMapper.Map<ProjectInfo, Proxy.Dto.ProjectInfo>)
-          .ToList();
+      catch (Exception e)
+      {
+        _log.Error(string.Format("Error while getting project infos"), e);
+        throw;
+      }
     }
 
     public List<Proxy.Dto.EnvironmentInfo> GetEnvironmentInfos()
     {
-      IEnumerable<EnvironmentInfo> environmentInfos =
-        _environmentInfoRepository.GetAll();
+      try
+      {
+        IEnumerable<EnvironmentInfo> environmentInfos =
+          _environmentInfoRepository.GetAll();
 
-      return
-        environmentInfos
-          .Where(x => x.IsVisibleToClients)
-          .Select(DtoMapper.Map<EnvironmentInfo, Proxy.Dto.EnvironmentInfo>)
-          .ToList();
+        return
+          environmentInfos
+            .Where(x => x.IsVisibleToClients)
+            .Select(DtoMapper.Map<EnvironmentInfo, Proxy.Dto.EnvironmentInfo>)
+            .ToList();
+      }
+      catch (Exception e)
+      {
+        _log.Error("Error while getting environment information", e);
+        throw;
+      }
     }    
 
     public List<string> GetWebMachineNames(string environmentName)
     {
-      if (string.IsNullOrEmpty(environmentName))
+      try
       {
-        throw new ArgumentException("Environment name can't be null or empty", "environmentName");
+        if (string.IsNullOrEmpty(environmentName))
+        {
+          throw new ArgumentException("Environment name can't be null or empty", "environmentName");
+        }
+
+        EnvironmentInfo environmentInfo = _environmentInfoRepository.FindByName(environmentName);
+
+        if (environmentInfo == null)
+        {
+          throw new FaultException<EnvironmentNotFoundFault>(
+            new EnvironmentNotFoundFault
+            {
+              EnvironmentName = environmentName
+            });
+        }
+
+        return environmentInfo.WebServerMachineNames.ToList();
       }
-
-      EnvironmentInfo environmentInfo = _environmentInfoRepository.FindByName(environmentName);
-
-      if (environmentInfo == null)
+      catch (Exception e)
       {
-        throw new FaultException<EnvironmentNotFoundFault>(
-          new EnvironmentNotFoundFault
-          {
-            EnvironmentName = environmentName
-          });
+        _log.Error(string.Format("Error while getting machines for environment [{0}]", environmentName), e);
+        throw;
       }
-
-      return environmentInfo.WebServerMachineNames.ToList();
     }
 
     public List<ProjectConfiguration> GetProjectConfigurations(string projectName)
     {
-      Guard.NotNullNorEmpty(projectName, "projectName");
+      try
+      {
+        Guard.NotNullNorEmpty(projectName, "projectName");
 
-      ProjectInfo projectInfo = _projectInfoRepository.FindByName(projectName);
+        ProjectInfo projectInfo = _projectInfoRepository.FindByName(projectName);
 
-      List<TeamCityBuildType> projectConfigurations = _teamCityClient.GetBuildTypesWithBranches(projectInfo.ArtifactsRepositoryName).ToList();
+        List<TeamCityBuildType> projectConfigurations = _teamCityClient.GetBuildTypesWithBranches(projectInfo.ArtifactsRepositoryName).ToList();
 
-      return projectConfigurations.Select(DtoMapper.Map<TeamCityBuildType, ProjectConfiguration>).ToList();
+        return projectConfigurations.Select(DtoMapper.Map<TeamCityBuildType, ProjectConfiguration>).ToList();
+      }
+      catch (Exception e)
+      {
+        _log.Error(string.Format("Error while getting project configurations for project [{0}]", projectName), e);
+        throw;
+      }
     }
 
-    public List<ProjectConfigurationBuild> GetProjectConfigurationBuilds(string projectName, string projectConfigurationName, string branchName, int maxCount)
+    public List<ProjectConfigurationBuild> GetProjectConfigurationBuilds(string projectName, string projectConfigurationName, string branchName, int maxCount, bool onlyPinned)
     {
-      Guard.NotNullNorEmpty(projectName, "projectName");
-      Guard.NotNullNorEmpty(projectConfigurationName, "projectConfigurationName");
-
-      ProjectInfo projectInfo = _projectInfoRepository.FindByName(projectName);
-
-      TeamCityBuildType teamCityBuildType = _teamCityClient.GetBuildTypes(projectInfo.ArtifactsRepositoryName).FirstOrDefault(x => x.Name == projectConfigurationName);
-
-      if (teamCityBuildType == null)
+      try
       {
-        return new List<ProjectConfigurationBuild>();
+        Guard.NotNullNorEmpty(projectName, "projectName");
+        Guard.NotNullNorEmpty(projectConfigurationName, "projectConfigurationName");
+
+        ProjectInfo projectInfo = _projectInfoRepository.FindByName(projectName);
+
+        TeamCityBuildType teamCityBuildType = _teamCityClient.GetBuildTypes(projectInfo.ArtifactsRepositoryName).FirstOrDefault(x => x.Name == projectConfigurationName);
+
+        if (teamCityBuildType == null)
+        {
+          return new List<ProjectConfigurationBuild>();
+        }
+
+        IEnumerable<TeamCityBuild> projectConfigurationBuilds = _teamCityClient.GetBuilds(teamCityBuildType.Id, branchName, 0, maxCount, true, onlyPinned);
+
+        return projectConfigurationBuilds.Select(DtoMapper.Map<TeamCityBuild, ProjectConfigurationBuild>).ToList();
       }
-
-      IEnumerable<TeamCityBuild> projectConfigurationBuilds = _teamCityClient.GetBuilds(teamCityBuildType.Id, branchName, 0, maxCount, true);
-
-      return projectConfigurationBuilds.Select(DtoMapper.Map<TeamCityBuild, ProjectConfigurationBuild>).ToList();
+      catch (Exception e)
+      {
+        _log.Error(string.Format("Error while getting project configuration builds for project [{0}]", projectName), e);
+        throw;
+      }
     }
 
     public List<string> GetWebAppProjectTargetUrls(string projectName, string environmentName)
     {
-      if (string.IsNullOrEmpty(projectName))
+      try
       {
-        throw new ArgumentException("Argument can't be null nor empty.", "projectName");
-      }
+        if (string.IsNullOrEmpty(projectName))
+        {
+          throw new ArgumentException("Argument can't be null nor empty.", "projectName");
+        }
 
-      if (string.IsNullOrEmpty(environmentName))
+        if (string.IsNullOrEmpty(environmentName))
+        {
+          throw new ArgumentException("Argument can't be null nor empty.", "environmentName");
+        }
+
+        WebAppProjectInfo webAppProjectInfo =
+          _projectInfoRepository.FindByName(projectName) as WebAppProjectInfo;
+
+        if (webAppProjectInfo == null)
+        {
+          throw new FaultException<ProjectNotFoundFault>(new ProjectNotFoundFault { ProjectName = projectName });
+        }
+
+        EnvironmentInfo environmentInfo =
+          _environmentInfoRepository.FindByName(environmentName);
+
+        if (environmentInfo == null)
+        {
+          throw new FaultException<EnvironmentNotFoundFault>(new EnvironmentNotFoundFault { EnvironmentName = environmentName });
+        }
+
+        List<string> targetUrls =
+          webAppProjectInfo.GetTargetUrls(environmentInfo)
+            .ToList();
+
+        return targetUrls;
+      }
+      catch (Exception e)
       {
-        throw new ArgumentException("Argument can't be null nor empty.", "environmentName");
+        _log.Error(string.Format("Error while getting web app project target urls for project [{0}] in environment [{1}]", projectName, environmentName), e);
+        throw;
       }
-
-      WebAppProjectInfo webAppProjectInfo =
-        _projectInfoRepository.FindByName(projectName) as WebAppProjectInfo;
-
-      if (webAppProjectInfo == null)
-      {
-        throw new FaultException<ProjectNotFoundFault>(new ProjectNotFoundFault { ProjectName = projectName });
-      }
-
-      EnvironmentInfo environmentInfo =
-        _environmentInfoRepository.FindByName(environmentName);
-
-      if (environmentInfo == null)
-      {
-        throw new FaultException<EnvironmentNotFoundFault>(new EnvironmentNotFoundFault { EnvironmentName = environmentName });
-      }
-
-      List<string> targetUrls =
-        webAppProjectInfo.GetTargetUrls(environmentInfo)
-          .ToList();
-
-      return targetUrls;
     }
 
     public List<string> GetProjectTargetFolders(string projectName, string environmentName)
     {
-      if (string.IsNullOrEmpty(projectName))
+      try
       {
-        throw new ArgumentException("Argument can't be null nor empty.", "projectName");
-      }
+        if (string.IsNullOrEmpty(projectName))
+        {
+          throw new ArgumentException("Argument can't be null nor empty.", "projectName");
+        }
 
-      if (string.IsNullOrEmpty(environmentName))
+        if (string.IsNullOrEmpty(environmentName))
+        {
+          throw new ArgumentException("Argument can't be null nor empty.", "environmentName");
+        }
+
+        ProjectInfo projectInfo =
+          _projectInfoRepository.FindByName(projectName);
+
+        if (projectInfo == null)
+        {
+          throw new FaultException<ProjectNotFoundFault>(new ProjectNotFoundFault { ProjectName = projectName });
+        }
+
+        EnvironmentInfo environmentInfo =
+          _environmentInfoRepository.FindByName(environmentName);
+
+        if (environmentInfo == null)
+        {
+          throw new FaultException<EnvironmentNotFoundFault>(new EnvironmentNotFoundFault { EnvironmentName = environmentName });
+        }
+
+        List<string> targetFolders =
+          projectInfo.GetTargetFolders(ObjectFactory.Instance, environmentInfo)
+            .ToList();
+
+        return targetFolders;
+      }
+      catch (Exception e)
       {
-        throw new ArgumentException("Argument can't be null nor empty.", "environmentName");
+        _log.Error(string.Format("Error while getting project target folders for project [{0}]", projectName), e);
+        throw;
       }
-
-      ProjectInfo projectInfo =
-        _projectInfoRepository.FindByName(projectName);
-
-      if (projectInfo == null)
-      {
-        throw new FaultException<ProjectNotFoundFault>(new ProjectNotFoundFault { ProjectName = projectName });
-      }
-
-      EnvironmentInfo environmentInfo =
-        _environmentInfoRepository.FindByName(environmentName);
-
-      if (environmentInfo == null)
-      {
-        throw new FaultException<EnvironmentNotFoundFault>(new EnvironmentNotFoundFault { EnvironmentName = environmentName });
-      }
-
-      List<string> targetFolders =
-        projectInfo.GetTargetFolders(ObjectFactory.Instance, environmentInfo)
-          .ToList();
-
-      return targetFolders;
     }
 
     public List<Proxy.Dto.DeploymentRequest> GetDeploymentRequests(int startIndex, int maxCount)
     {
-      return
-        _deploymentRequestRepository.GetDeploymentRequests(startIndex, maxCount)
-          .Select(DtoMapper.Map<DeploymentRequest, Proxy.Dto.DeploymentRequest>)
-          .ToList();
+      try
+      {
+        return
+          _deploymentRequestRepository.GetDeploymentRequests(startIndex, maxCount)
+            .Select(DtoMapper.Map<DeploymentRequest, Proxy.Dto.DeploymentRequest>)
+            .ToList();
+      }
+      catch (Exception e)
+      {
+        _log.Error("Error while getting deployment requests", e);
+        throw;
+      }
     }
 
     public List<Proxy.Dto.DiagnosticMessage> GetDiagnosticMessages(Guid uniqueClientId, long lastSeenMaxMessageId, Proxy.Dto.DiagnosticMessageType minMessageType)
     {
-      if (uniqueClientId == Guid.Empty)
+      try
       {
-        throw new ArgumentException("Argument can't be Guid.Empty.", "uniqueClientId");
-      }
+        if (uniqueClientId == Guid.Empty)
+        {
+          throw new ArgumentException("Argument can't be Guid.Empty.", "uniqueClientId");
+        }
 
-      return
-        _diagnosticMessagesLogger.GetMessages(uniqueClientId, lastSeenMaxMessageId)
-          .Select(DtoMapper.Map<DiagnosticMessage, Proxy.Dto.DiagnosticMessage>)
-          .Where(dm => dm.Type >= minMessageType)
-          .ToList();
+        return
+          _diagnosticMessagesLogger.GetMessages(uniqueClientId, lastSeenMaxMessageId)
+            .Select(DtoMapper.Map<DiagnosticMessage, Proxy.Dto.DiagnosticMessage>)
+            .Where(dm => dm.Type >= minMessageType)
+            .ToList();
+      }
+      catch (Exception e)
+      {
+        _log.Error("Error while getting diagnostic messages", e);
+        throw;
+      }
     }
 
     public Proxy.Dto.Metadata.ProjectMetadata GetProjectMetadata(string projectName, string environmentName)
@@ -701,19 +782,6 @@ namespace UberDeployer.Agent.Service
       return environmentDeployInfo.ProjectsToDeploy;
     }
 
-    private void HandleDeploymentException(Exception exception, Guid uniqueClientId)
-    {
-      const string errorMessage = "Unhandled exception.";
-
-      _diagnosticMessagesLogger
-        .LogMessage(
-          uniqueClientId,
-          DiagnosticMessageType.Error,
-          string.Format("{0}{1}", errorMessage, (exception != null ? Environment.NewLine + exception : " (no exception info)")));
-
-      _log.ErrorIfEnabled(() => errorMessage, exception);
-    }    
-
     private void DoDeploy(Guid uniqueClientId, string requesterIdentity, Core.Domain.DeploymentInfo deploymentInfo, ProjectInfo projectInfo)
     {
       DeploymentTask deploymentTask = projectInfo.CreateDeploymentTask(ObjectFactory.Instance);
@@ -778,9 +846,42 @@ namespace UberDeployer.Agent.Service
       }
     }
 
+    private void HandleDeploymentException(Exception exception, Guid uniqueClientId)
+    {
+      const string errorMessage = "Unhandled exception.";
+
+      _diagnosticMessagesLogger
+        .LogMessage(
+          uniqueClientId,
+          DiagnosticMessageType.Error,
+          string.Format("{0}{1}", errorMessage, (exception != null ? Environment.NewLine + exception : " (no exception info)")));
+
+      _log.ErrorIfEnabled(() => errorMessage, exception);
+    }
+
     private void LogMessage(Guid uniqueClientId, DiagnosticMessageType messageType, string message)
     {
-      _log.DebugIfEnabled(() => string.Format("{0}: {1}", messageType, message));
+      switch (messageType)
+      {
+        case DiagnosticMessageType.Trace:
+          _log.TraceIfEnabled(() => message);
+          break;
+
+        case DiagnosticMessageType.Info:
+          _log.InfoIfEnabled(() => message);
+          break;
+
+        case DiagnosticMessageType.Warn:
+          _log.WarnIfEnabled(() => message);
+          break;
+
+        case DiagnosticMessageType.Error:
+          _log.ErrorIfEnabled(() => message);
+          break;
+
+        default:
+          throw new ArgumentOutOfRangeException("messageType", messageType, null);
+      }
 
       _diagnosticMessagesLogger.LogMessage(uniqueClientId, messageType, message);
     }

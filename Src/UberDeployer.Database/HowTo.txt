@@ -1,0 +1,2 @@
+1. Install scripts using sqlcmd mode.
+2. If you want to use database name other than Uberdeployer then you have to change 'DatabaseName' variable in schema upgrade script.

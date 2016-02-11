@@ -57,11 +57,6 @@ namespace UberDeployer.CommonConfiguration
       return _container.Resolve<IDeploymentRequestRepository>();
     }
 
-    public ITeamCityClient CreateTeamCityClient()
-    {
-      return _container.Resolve<ITeamCityClient>();
-    }
-
     public INtServiceManager CreateNtServiceManager()
     {
       return _container.Resolve<INtServiceManager>();

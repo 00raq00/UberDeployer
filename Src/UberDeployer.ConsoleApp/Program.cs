@@ -2,9 +2,10 @@
 using System.IO;
 using log4net;
 using log4net.Config;
-using UberDeployer.ConsoleCommander;
+
 using System.Reflection;
 using UberDeployer.CommonConfiguration;
+using UberDeployer.ConsoleApp.Commander;
 
 namespace UberDeployer.ConsoleApp
 {

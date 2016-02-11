@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Reflection;
 using System.Security.Principal;
+
 using log4net;
+
 using UberDeployer.Common;
 using UberDeployer.CommonConfiguration;
-using UberDeployer.ConsoleCommander;
+using UberDeployer.ConsoleApp.Commander;
 using UberDeployer.Core.Deployment;
 using UberDeployer.Core.Deployment.Pipeline;
 using UberDeployer.Core.Deployment.Tasks;
@@ -32,7 +34,7 @@ namespace UberDeployer.ConsoleApp.Commands
 
       IProjectInfoRepository projectInfoRepository =
         ObjectFactory.Instance.CreateProjectInfoRepository();
-      
+
       string projectName = args[0];
       string projectConfigurationName = args[1];
       string projectConfigurationBuildId = args[2];
@@ -78,7 +80,7 @@ namespace UberDeployer.ConsoleApp.Commands
       }
       catch (Exception exc)
       {
-        LogMessage("Error: " + exc, DiagnosticMessageType.Error);
+        LogMessage("Error: " + exc.Message, DiagnosticMessageType.Error, exc);
 
         return 1;
       }
@@ -89,14 +91,37 @@ namespace UberDeployer.ConsoleApp.Commands
       OutputWriter.WriteLine("Usage: {0} project projectConfiguration buildId targetEnvironment", CommandName);
     }
 
-    protected void LogMessage(string message, DiagnosticMessageType messageType)
+    protected void LogMessage(string message, DiagnosticMessageType messageType, Exception exception = null)
     {
-      _log.DebugIfEnabled(() => string.Format("{0}: {1}", messageType, message));
+      switch (messageType)
+      {
+        case DiagnosticMessageType.Trace:
+          _log.TraceIfEnabled(() => message);
+          break;
+
+        case DiagnosticMessageType.Info:
+          _log.InfoIfEnabled(() => message);
+          break;
+
+        case DiagnosticMessageType.Warn:
+          _log.WarnIfEnabled(() => message, exception);
+          break;
+
+        case DiagnosticMessageType.Error:
+          _log.ErrorIfEnabled(() => message, exception);
+          break;
+
+        default:
+          throw new ArgumentOutOfRangeException("messageType", messageType, null);
+      }
     }
 
     public override string CommandName
     {
-      get { return "deploy"; }
+      get
+      {
+        return "deploy";
+      }
     }
 
     private static string RequesterIdentity
