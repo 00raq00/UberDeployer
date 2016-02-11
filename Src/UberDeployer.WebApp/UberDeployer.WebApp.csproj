@@ -166,7 +166,9 @@
     <Content Include="Static\plugins\toastr\toastr.min.css" />
     <Content Include="Static\plugins\toastr\toastr.min.js" />
     <Content Include="Static\site.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -220,6 +222,7 @@
   <ItemGroup>
     <Content Include="Views\web.config">
       <SubType>Designer</SubType>
+    </Content>
     <Content Include="Static\css\bootstrap-helpers.css.map">
       <DependentUpon>bootstrap-helpers.css</DependentUpon>
     </Content>
@@ -235,7 +238,6 @@
     </Content>
     <Content Include="Static\plugins\bootstrap\css\bootstrap.css.map">
       <DependentUpon>bootstrap.css</DependentUpon>
-    </Content>
     </Content>
     <Content Include="packages.config" />
     <Content Include="Static\css\bootstrap-helpers.less" />

@@ -11,7 +11,7 @@ UberDeployer.createLogsTreeGrid = function (appPrefix, treeLogsTableSelector, lo
 
   function loadNewDiagnosticMessagesToTree() {
     $.getJSON(
-      _appPrefix + 'Api/GetDiagnosticMessages?lastSeenMaxMessageId=' + _lastSeenMessageId,
+      _appPrefix + "Api/GetDiagnosticMessages?lastSeenMaxMessageId=" + _lastSeenMessageId,
       function(data) {
         $.each(data.messages, function(i, val) {
           if (val.MessageId > _lastSeenMessageId) {
@@ -24,13 +24,13 @@ UberDeployer.createLogsTreeGrid = function (appPrefix, treeLogsTableSelector, lo
 
   function logMessageTree(message, type, groupName, messageId) {
     var $treeLogs = $(_treeLogsTableSelector);
-    var $logRow = $('<tr></tr>');
+    var $logRow = $("<tr></tr>");
     $logRow.addClass("treegrid-" + messageId);
 
     var $logCell = $("<td></td>");
     $logCell.text(">> " + message);
 
-    $logCell.addClass('log-msg');
+    $logCell.addClass("log-msg");
 
     setLogType($logRow, type);
 
@@ -43,7 +43,7 @@ UberDeployer.createLogsTreeGrid = function (appPrefix, treeLogsTableSelector, lo
       $logRow.addClass("treegrid-parent-" + _currentDiagnosticMessageGroupId);
 
       if (type.toLowerCase() == "error") {
-        var $groupRow = $('.' + 'treegrid-' + _currentDiagnosticMessageGroupId);
+        var $groupRow = $("." + "treegrid-" + _currentDiagnosticMessageGroupId);
 
         var logClassPattern = /log-msg-*/;
 
@@ -76,14 +76,14 @@ UberDeployer.createLogsTreeGrid = function (appPrefix, treeLogsTableSelector, lo
   function setLogType(logRow, type) {
     var typeLower = type.toLowerCase();
 
-    if (typeLower === 'trace') {
-      logRow.addClass('log-msg-trace');
-    } else if (typeLower == 'info') {
-      logRow.addClass('log-msg-info');
-    } else if (typeLower == 'warn') {
-      logRow.addClass('log-msg-warn');
-    } else if (typeLower == 'error') {
-      logRow.addClass('log-msg-error');
+    if (typeLower === "trace") {
+      logRow.addClass("log-msg-trace");
+    } else if (typeLower == "info") {
+      logRow.addClass("log-msg-info");
+    } else if (typeLower == "warn") {
+      logRow.addClass("log-msg-warn");
+    } else if (typeLower == "error") {
+      logRow.addClass("log-msg-error");
     }
   }
 
@@ -103,7 +103,7 @@ UberDeployer.createLogsTreeGrid = function (appPrefix, treeLogsTableSelector, lo
     },
 
     clearLogs: function () {
-      $(_treeLogsTableSelector).find('*').remove();
+      $(_treeLogsTableSelector).find("*").remove();
     }
   };
 };
