@@ -5,11 +5,11 @@ UberDeployer.createLogsTreeGrid = function (appPrefix, treeLogsTableSelector, lo
   var _treeLogsTableSelector = treeLogsTableSelector;
   var _appPrefix = appPrefix;
   var _logsLoaderInterval = logsLoaderInterval;
-  var _currentDiagnosticMessageGroupId = null;
-  var _currentDiagnosticMessageGroupName = null;
+  var _currentLogGroupId = null;
+  var _currentLogGroupName = null;
   var _lastSeenMessageId = -1;
 
-  function loadNewDiagnosticMessagesToTree() {
+  function loadNewLogsToTree() {
     $.getJSON(
       _appPrefix + "Api/GetDiagnosticMessages?lastSeenMaxMessageId=" + _lastSeenMessageId,
       function(data) {
@@ -24,53 +24,79 @@ UberDeployer.createLogsTreeGrid = function (appPrefix, treeLogsTableSelector, lo
 
   function logMessageTree(message, type, groupName, messageId) {
     var $treeLogs = $(_treeLogsTableSelector);
-    var $logRow = $("<tr></tr>");
-    $logRow.addClass("treegrid-" + messageId);
 
-    var $logCell = $("<td></td>");
-    $logCell.text(">> " + message);
+    var logRow = createLogRow(message, messageId);
 
-    $logCell.addClass("log-msg");
-
-    setLogType($logRow, type);
+    setLogType(logRow, type);
 
     if (!groupName) {
-      // add regular log
-      _currentDiagnosticMessageGroupName = null;
-      _currentDiagnosticMessageGroupId = null;
-    } else if (_currentDiagnosticMessageGroupName == groupName) {
-      // add to existing group
-      $logRow.addClass("treegrid-parent-" + _currentDiagnosticMessageGroupId);
-
-      if (type.toLowerCase() == "error") {
-        var $groupRow = $("." + "treegrid-" + _currentDiagnosticMessageGroupId);
-
-        var logClassPattern = /log-msg-*/;
-
-        $groupRow[0].className.split(/\s+/)
-          .filter(function(value) {
-            return logClassPattern.test(value);
-          }).forEach(function(logClass) {
-            $groupRow.removeClass(logClass);
-          });
-
-        $groupRow.addClass("log-msg-error");
-      }
-    } else {
-      // create new group
-      _currentDiagnosticMessageGroupName = groupName;
-      _currentDiagnosticMessageGroupId = messageId;
-
-      $logRow.addClass("active");
+      _currentLogGroupName = null;
+      _currentLogGroupId = null;
     }
-
-    $logRow.append($logCell);
-    $treeLogs.append($logRow);
+    else if (_currentLogGroupName === groupName) {
+      addLogRowToGroup(logRow, _currentLogGroupId, type);
+    }
+    else {
+      setNewLogGroup(logRow, groupName, messageId);
+    }
+    
+    $treeLogs.append(logRow);
     $treeLogs.treegrid({
       "initialState": "collapsed"
     });
 
-    //$treeLogs.scrollTop($treeLogs[0].scrollHeight - $treeLogs.height());
+    scrollToTheBottom($treeLogs.parent());
+  }
+
+  function setNewLogGroup(logRow, groupName, groupId){
+    _currentLogGroupName = groupName;
+    _currentLogGroupId = groupId;
+
+    logRow.addClass("active");
+  }
+
+  function addLogRowToGroup(logRow, groupId, logType) {
+    var groupRow;
+
+    logRow.addClass("treegrid-parent-" + groupId);
+
+    if (logType.toLowerCase() === "error") {
+      groupRow = $("." + "treegrid-" + groupId);
+
+      changeLogClass(groupRow, "log-msg-error");
+    }
+  }
+
+  function changeLogClass(logRow, newLogClass) {
+    var logClassPattern = /log-msg-*/;
+
+    logRow[0].className.split(/\s+/)
+        .filter(function (value) {
+          return logClassPattern.test(value);
+        }).forEach(function (logClass) {
+          logRow.removeClass(logClass);
+        });
+
+    logRow.addClass(newLogClass);
+  }
+
+  function createLogRow(message, messageId) {
+    var logRow = $("<tr></tr>");
+    var logCell = $("<td></td>");
+
+    logRow.addClass("treegrid-" + messageId);
+
+    logCell.text(">> " + message);
+
+    logCell.addClass("log-msg");
+
+    logRow.append(logCell);
+
+    return logRow;
+  }
+
+  function scrollToTheBottom(container) {
+    container.scrollTop(container[0].scrollHeight - container.height());
   }
 
   function setLogType(logRow, type) {
@@ -78,17 +104,20 @@ UberDeployer.createLogsTreeGrid = function (appPrefix, treeLogsTableSelector, lo
 
     if (typeLower === "trace") {
       logRow.addClass("log-msg-trace");
-    } else if (typeLower == "info") {
+    }
+    else if (typeLower === "info") {
       logRow.addClass("log-msg-info");
-    } else if (typeLower == "warn") {
+    }
+    else if (typeLower === "warn") {
       logRow.addClass("log-msg-warn");
-    } else if (typeLower == "error") {
+    }
+    else if (typeLower === "error") {
       logRow.addClass("log-msg-error");
     }
   }
 
   function startLogsLoader() {
-    loadNewDiagnosticMessagesToTree();
+    loadNewLogsToTree();
 
     setTimeout(
       startLogsLoader,

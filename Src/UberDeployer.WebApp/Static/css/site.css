@@ -172,30 +172,30 @@
   text-decoration: underline;
 }
 .flat-grad-butt {
-  background-image: linear-gradient(#34495e 50%, #2c3e50 50%);
+  background-image: linear-gradient(#34495E 50%, #2C3E50 50%);
 }
 .flat-primary-grad-butt {
-  background-image: linear-gradient(#1abc9c 50%, #16a085 50%);
+  background-image: linear-gradient(#1ABC9C 50%, #16A085 50%);
 }
 .flat-info-grad-butt {
-  background-image: linear-gradient(#3498db 50%, #2980b9 50%);
+  background-image: linear-gradient(#3498DB 50%, #2980B9 50%);
 }
 .flat-danger-grad-butt {
-  background-image: linear-gradient(#e74c3c 50%, #c0392b 50%);
+  background-image: linear-gradient(#E74C3C 50%, #C0392B 50%);
 }
 .flat-inner-butt {
   padding: 11px 0px;
-  box-shadow: inset #2c3e50 -3px -3px 0px;
+  box-shadow: inset #2C3E50 -3px -3px 0px;
 }
 .flat-primary-inner-butt {
   background: #1ABC9C;
-  box-shadow: inset #16a085 -3px -3px 0px;
+  box-shadow: inset #16A085 -3px -3px 0px;
 }
 .flat-info-inner-butt {
-  box-shadow: inset #2980b9 -3px -3px 0px;
+  box-shadow: inset #2980B9 -3px -3px 0px;
 }
 .flat-danger-inner-butt {
-  box-shadow: inset #c0392b -3px -3px 0px;
+  box-shadow: inset #C0392B -3px -3px 0px;
 }
 .flat-outer-butt {
   padding: 11px 0px;
@@ -503,4 +503,12 @@ button.pull-left {
     width: 100%;
   }
 }
-/*# sourceMappingURL=site.css.map */
+#tree-logs-container {
+  background-color: #fff;
+  -ms-border-radius: 3px;
+  border-radius: 3px;
+  border: solid #ccc 1px;
+  height: 560px;
+  margin-bottom: 5px;
+  overflow-y: scroll;
+}
