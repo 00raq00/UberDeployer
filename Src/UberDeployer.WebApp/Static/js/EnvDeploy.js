@@ -1,19 +1,15 @@
 ﻿var UberDeployer = UberDeployer || {};
 
 UberDeployer.EnvDeploy = function() {
-  var _initialSelection = null;
-
+  var _initialSelection;
   var _projects = null;
-
-  var _self = this;
-
   var _logsTreeGrid;
 
   var doDeployEnv = function() {
     var targetEnvironmentName = getSelectedTargetEnvironmentName();
 
     $.ajax({
-      url: g_AppPrefix + 'EnvDeployment/DeployAll',
+      url: g_AppPrefix + "EnvDeployment/DeployAll",
       type: "POST",
       data: {
         environmentName: targetEnvironmentName,        
@@ -29,7 +25,7 @@ UberDeployer.EnvDeploy = function() {
   var loadProjectsForCurrentEnvironmentDeploy = function() {
     clearProjects();
 
-    $.getJSON(g_AppPrefix + 'EnvDeployment/GetProjectsForEnvironmentDeploy', { environmentName: getSelectedTargetEnvironmentName() })
+    $.getJSON(g_AppPrefix + "EnvDeployment/GetProjectsForEnvironmentDeploy", { environmentName: getSelectedTargetEnvironmentName() })
       .done(
         function(data) {
           _projects = [];
@@ -40,8 +36,8 @@ UberDeployer.EnvDeploy = function() {
 
             domHelper.getProjectsElement()
               .append(
-                $('<option></option>')
-                  .attr('value', val.Name)
+                $("<option></option>")
+                  .attr("value", val.Name)
                   .text(val.Name));
           });
         });
@@ -61,7 +57,7 @@ UberDeployer.EnvDeploy = function() {
   var ConfirmRestoreDialog = (function () {
     function ConfirmRestoreDialog() {
       var self = this;
-      $('#dlg-confirm-restore-ok')
+      $("#dlg-confirm-restore-ok")
         .click(function () {
           self.closeDialog();
           doDeployEnv();
@@ -69,13 +65,13 @@ UberDeployer.EnvDeploy = function() {
     };
 
     ConfirmRestoreDialog.prototype.showDialog = function (targetEnvironmentName) {
-      $('#dlg-confirm-restore-target-environment-name').html(targetEnvironmentName);
-      $('#dlg-confirm-restore').modal('show');
+      $("#dlg-confirm-restore-target-environment-name").html(targetEnvironmentName);
+      $("#dlg-confirm-restore").modal("show");
     };
 
     ConfirmRestoreDialog.prototype.closeDialog = function () {
-      $('#dlg-confirm-restore-target-environment-name').html('');
-      $('#dlg-confirm-restore').modal('hide');
+      $("#dlg-confirm-restore-target-environment-name").html("");
+      $("#dlg-confirm-restore").modal("hide");
     };
 
     return ConfirmRestoreDialog;
@@ -90,12 +86,12 @@ UberDeployer.EnvDeploy = function() {
       var confirmRestoreDialog = new ConfirmRestoreDialog();
 
       $.ajaxSetup({
-        'error': function(xhr) {
+        "error": function(xhr) {
           domHelper.showError(xhr);
         }
       });
 
-      $('#btn-deployEnv').click(function () {
+      $("#btn-deployEnv").click(function () {
         confirmRestoreDialog.showDialog(getSelectedTargetEnvironmentName());
       });
 
@@ -115,7 +111,7 @@ UberDeployer.EnvDeploy = function() {
         loadProjectsForCurrentEnvironmentDeploy();
       });
 
-      _logsTreeGrid = UberDeployer.createLogsTreeGrid(g_AppPrefix, '#tree-logs', g_DiagnosticMessagesLoaderInterval);
+      _logsTreeGrid = UberDeployer.createLogsTreeGrid(g_AppPrefix, "#tree-logs", g_DiagnosticMessagesLoaderInterval);
       
       _logsTreeGrid.startTreeGridLogsLoader();
     }
