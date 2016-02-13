@@ -11,5 +11,7 @@ namespace UberDeployer.Agent.Proxy.Dto
     public string Message { get; set; }
 
     public DiagnosticMessageType Type { get; set; }
+
+    public string GroupName { get; set; }
   }
 }

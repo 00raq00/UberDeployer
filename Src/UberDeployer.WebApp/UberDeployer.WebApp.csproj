@@ -166,7 +166,9 @@
     <Content Include="Static\plugins\toastr\toastr.min.css" />
     <Content Include="Static\plugins\toastr\toastr.min.js" />
     <Content Include="Static\site.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -220,6 +222,22 @@
   <ItemGroup>
     <Content Include="Views\web.config">
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Static\css\bootstrap-helpers.css.map">
+      <DependentUpon>bootstrap-helpers.css</DependentUpon>
+    </Content>
+    <Content Include="Static\js\treeGridLogs.js" />
+    <Content Include="Static\plugins\fontawesome\css\font-awesome.css.map">
+      <DependentUpon>font-awesome.css</DependentUpon>
+    </Content>
+    <Content Include="Static\css\sidebar.css.map">
+      <DependentUpon>sidebar.css</DependentUpon>
+    </Content>
+    <Content Include="Static\css\fonts.css.map">
+      <DependentUpon>fonts.css</DependentUpon>
+    </Content>
+    <Content Include="Static\plugins\bootstrap\css\bootstrap.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
     <Content Include="packages.config" />
     <Content Include="Static\css\bootstrap-helpers.less" />
@@ -298,12 +316,21 @@
     <Content Include="Static\plugins\toastr\toastr.less" />
     <Content Include="Static\plugins\toastr\toastr.min.js.map" />
     <Content Include="Views\Deployment\Index.cshtml" />
+    <Content Include="Static\plugins\treegrid\css\jquery.treegrid.css" />
+    <Content Include="Static\plugins\treegrid\img\collapse.png" />
+    <Content Include="Static\plugins\treegrid\img\expand.png" />
+    <Content Include="Static\plugins\treegrid\img\file.png" />
+    <Content Include="Static\plugins\treegrid\img\folder.png" />
+    <Content Include="Static\plugins\treegrid\js\jquery.treegrid.min.js" />
     <Content Include="Views\Deployment\Popups\CollectCredentials.cshtml" />
     <Content Include="Views\Deployment\Popups\CollectDatabaseScripts.cshtml" />
     <Content Include="Views\Deployment\Popups\CollectDependencies.cshtml" />
     <Content Include="Views\Deployment\Popups\DeployArtifactsToLocation.cshtml" />
     <Content Include="Views\EnvDeployment\Index.cshtml" />
     <Content Include="Views\EnvDeployment\Popups\ConfirmRestore.cshtml" />
+    <Content Include="Static\plugins\toastr\toastr.css.map">
+      <DependentUpon>toastr.css</DependentUpon>
+    </Content>
     <Content Include="Views\History\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />

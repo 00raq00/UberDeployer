@@ -230,6 +230,7 @@ namespace UberDeployer.WebApp.Core.ApiControllers
                 MessageId = dm.MessageId,
                 Message = dm.Message,
                 Type = dm.Type.ToString(),
+                GroupName = dm.GroupName,
               }).ToList();
 
       return

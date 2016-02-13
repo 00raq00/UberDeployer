@@ -4,6 +4,11 @@
   Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section OptionalHeaderContent
+{
+  <link href="@Url.Content("~/Static/plugins/treegrid/css/jquery.treegrid.css")" rel="stylesheet" type="text/css" />
+}
+
 <div id="content-title">
   <div class="row">
     <div class="col-md-12">
@@ -33,13 +38,14 @@
       </div>
     </div>
     <div class="row row-with-top-margin">
-      <div class="col-md-12">
-        <div id="txt-logs">
+        <div class="col-md-12">
+            <div id="tree-logs-container">
+                <table id="tree-logs" class="tree"></table>
+            </div>
+            <button id="btn-clear-logs" class="flat-butt flat-gray-butt pull-right" onclick="javascript: clearLogs();">
+                <i class="fa fa-trash-o"></i> Clear
+            </button>
         </div>
-        <button id="btn-clear-logs" class="flat-butt flat-gray-butt pull-right" onclick="javascript: clearLogs();">
-          <i class="fa fa-trash-o"></i> Clear
-        </button>
-      </div>
     </div>
   </div>
 </div>
@@ -90,8 +96,9 @@
 @{ Html.RenderPartial("Popups/ConfirmRestore");}
 
 @section OptionalScripts {
-  
-  <script type="text/javascript" src="@Url.Content("~/Static/js/envDeploy.js")"> </script>
+    <script type="text/javascript" src="@Url.Content("~/Static/plugins/treegrid/js/jquery.treegrid.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Static/js/envDeploy.js")"> </script>
+    <script type="text/javascript" src="@Url.Content("~/Static/js/treeGridLogs.js")"> </script>
 
   <script type="text/javascript">
     $(document).ready(function() {
