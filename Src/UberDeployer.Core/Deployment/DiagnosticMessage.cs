@@ -4,7 +4,7 @@ namespace UberDeployer.Core.Deployment
 {
   public class DiagnosticMessage
   {
-    public DiagnosticMessage(long messageId, DateTime dateUtf, DiagnosticMessageType type, string message, string groupName)
+    public DiagnosticMessage(long messageId, DateTime dateUtf, DiagnosticMessageType type, string message)
     {
       if (string.IsNullOrEmpty(message))
       {
@@ -20,12 +20,6 @@ namespace UberDeployer.Core.Deployment
       DateUtf = dateUtf;
       Type = type;
       Message = message;
-      GroupName = groupName;
-    }
-
-    public DiagnosticMessage(long messageId, DateTime dateUtf, DiagnosticMessageType type, string message)
-      : this(messageId, dateUtf, type, message, null)
-    {
     }
 
     public long MessageId { get; private set; }
@@ -35,7 +29,5 @@ namespace UberDeployer.Core.Deployment
     public DiagnosticMessageType Type { get; private set; }
 
     public string Message { get; private set; }
-
-    public string GroupName { get; private set; }
   }
 }

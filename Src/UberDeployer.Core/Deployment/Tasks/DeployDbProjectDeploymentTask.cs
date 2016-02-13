@@ -228,11 +228,14 @@ namespace UberDeployer.Core.Deployment.Tasks
 
     private IDbScriptRunner GetScriptRunner(bool isTransactional, string databaseServerMachineName, string dbName, DatabaseServer databaseServers)
     {
-
-      string argumentsSqlCmd = string.Join(" ",
+      string argumentsSqlCmd = "";
+      if (databaseServers != null)
+      {
+        argumentsSqlCmd = string.Join(" ",
         databaseServers.SqlPackageVariables.Select(
           kv => string.Format(" /v {0}=\"{1}\"", kv.Key, kv.Value)));
-
+      }
+      
       IDbScriptRunner scriptRunner =
       _dbScriptRunnerFactory.CreateDbScriptRunner(isTransactional, databaseServerMachineName, dbName, argumentsSqlCmd);
 

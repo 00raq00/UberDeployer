@@ -2,7 +2,6 @@ var g_AppPrefix = '/';
 
 var g_lastSeenMessageId = -1;
 var g_DiagnosticMessagesLoaderInterval = 500;
-var g_CurrentDiagnosticMessageGroupName = "";
 
 var g_TargetEnvironmentCookieName = 'target-environment-name';
 var g_TargetEnvironmentCookieExpirationInDays = 365;
@@ -677,72 +676,30 @@ function alternateTableRows(tableId) {
     });
 }
 
-function logMessage(message, type, groupName) {
+function logMessage(message, type) {
   var $txtLogs = $('#txt-logs');
   var $logMsg = $('<div></div>');
-  
-  if (!groupName) {
-    g_CurrentDiagnosticMessageGroupName = "";
-    
-    // add regular log
-    $logMsg.text('>> ' + message);
-    $logMsg.addClass('log-msg');
 
-    var typeLower = type.toLowerCase();
+  $logMsg.text('>> ' + message);
+  $logMsg.addClass('log-msg');
 
-    if (typeLower === 'trace') {
-      $logMsg.addClass('log-msg-trace');
-    }
-    else if (typeLower == 'info') {
-      $logMsg.addClass('log-msg-info');
-    }
-    else if (typeLower == 'warn') {
-      $logMsg.addClass('log-msg-warn');
-    }
-    else if (typeLower == 'error') {
-      $logMsg.addClass('log-msg-error');
-    }
+  var typeLower = type.toLowerCase();
 
-    $txtLogs.append($logMsg);
-    $txtLogs.scrollTop($txtLogs[0].scrollHeight - $txtLogs.height());
+  if (typeLower === 'trace') {
+    $logMsg.addClass('log-msg-trace');
   }
-  else if (g_CurrentDiagnosticMessageGroupName == groupName) {
-    // add to existing group
-    var expandIcon = $('<div>+</div>');
-    var groupHeader = $('<div></div>');
-    groupHeader.text(message);
-
-    var subLogs = $('<ul></ul>');
-    
-    $logMsg.append(expandIcon);
-    $logMsg.text(message);
-
-    $logMsg.addClass('log-msg');
-
-    var typeLower = type.toLowerCase();
-
-    if (typeLower === 'trace') {
-      $logMsg.addClass('log-msg-trace');
-    }
-    else if (typeLower == 'info') {
-      $logMsg.addClass('log-msg-info');
-    }
-    else if (typeLower == 'warn') {
-      $logMsg.addClass('log-msg-warn');
-    }
-    else if (typeLower == 'error') {
-      $logMsg.addClass('log-msg-error');
-    }
-
-    $txtLogs.append($logMsg);
-    $txtLogs.scrollTop($txtLogs[0].scrollHeight - $txtLogs.height());
+  else if (typeLower == 'info') {
+    $logMsg.addClass('log-msg-info');
   }
-  else {
-    g_CurrentDiagnosticMessageGroupName = groupName;
-    
-    // create new group 
-    
-  }  
+  else if (typeLower == 'warn') {
+    $logMsg.addClass('log-msg-warn');
+  }
+  else if (typeLower == 'error') {
+    $logMsg.addClass('log-msg-error');
+  }
+
+  $txtLogs.append($logMsg);
+  $txtLogs.scrollTop($txtLogs[0].scrollHeight - $txtLogs.height());
 }
 
 function clearLogs() {

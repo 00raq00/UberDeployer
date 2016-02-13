@@ -7,7 +7,5 @@ namespace UberDeployer.WebApp.Core.Models.Api
     public string Message { get; set; }
 
     public string Type { get; set; }
-
-    public string GroupName { get; set; }
   }
 }
