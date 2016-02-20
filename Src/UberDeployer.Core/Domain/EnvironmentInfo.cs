@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+
 using UberDeployer.Common.SyntaxSugar;
 
 namespace UberDeployer.Core.Domain
@@ -11,14 +12,23 @@ namespace UberDeployer.Core.Domain
     private static readonly Regex _DriveLetterRegex = new Regex(@"^(?<DriveLetter>[a-z]):\\", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     private readonly List<String> _webServerMachines;
+
     private readonly List<String> _schedulerServerTasksMachineNames;
+
     private readonly List<String> _schedulerServerBinariesMachineNames;
+
     private readonly Dictionary<string, EnvironmentUser> _environmentUsersByIdDict;
+
     private readonly Dictionary<string, IisAppPoolInfo> _appPoolInfosByNameDict;
+
     private readonly Dictionary<string, DatabaseServer> _databaseServersByIdDict;
+
     private readonly Dictionary<string, ProjectToFailoverClusterGroupMapping> _projectToFailoverClusterGroupMappingsDict;
+
     private readonly Dictionary<string, WebAppProjectConfigurationOverride> _webAppProjectConfigurationOverridesDict;
+
     private readonly Dictionary<string, DbProjectConfigurationOverride> _dbProjectConfigurationOverridesDict;
+
     private readonly Dictionary<string, CustomEnvMachine> _customEnvMachinesDict;
 
     public EnvironmentInfo(
@@ -34,16 +44,16 @@ namespace UberDeployer.Core.Domain
       string ntServicesBaseDirPath,
       string webAppsBaseDirPath,
       string schedulerAppsBaseDirPath,
-      bool enableFailoverClusteringForNtServices,      
+      bool enableFailoverClusteringForNtServices,
       IEnumerable<EnvironmentUser> environmentUsers,
       IEnumerable<IisAppPoolInfo> appPoolInfos,
       IEnumerable<DatabaseServer> databaseServers,
       IEnumerable<ProjectToFailoverClusterGroupMapping> projectToFailoverClusterGroupMappings,
       IEnumerable<WebAppProjectConfigurationOverride> webAppProjectConfigurationOverrides,
-      IEnumerable<DbProjectConfigurationOverride> dbProjectConfigurations,      
+      IEnumerable<DbProjectConfigurationOverride> dbProjectConfigurations,
       string manualDeploymentPackageDirPath,
       string domainName,
-      IEnumerable<CustomEnvMachine>  customEnvMachines)
+      IEnumerable<CustomEnvMachine> customEnvMachines)
     {
       Guard.NotNullNorEmpty(name, "name");
       Guard.NotNull(configurationTemplateName, "configurationTemplateName");
@@ -74,7 +84,7 @@ namespace UberDeployer.Core.Domain
       AppServerMachineName = appServerMachineName;
       FailoverClusterMachineName = failoverClusterMachineName;
       _webServerMachines = webServerMachineNames.ToList();
-      
+
       TerminalServerMachines = terminalServerMachines;
       if (TerminalServerMachines.Any() == false)
       {
@@ -109,7 +119,7 @@ namespace UberDeployer.Core.Domain
       _webAppProjectConfigurationOverridesDict = webAppProjectConfigurationOverrides.ToDictionary(e => e.ProjectName);
       _dbProjectConfigurationOverridesDict = dbProjectConfigurations.ToDictionary(e => e.ProjectName);
 
-      ManualDeploymentPackageDirPath = manualDeploymentPackageDirPath;      
+      ManualDeploymentPackageDirPath = manualDeploymentPackageDirPath;
       DomainName = domainName;
 
       if (customEnvMachines != null)
@@ -132,7 +142,11 @@ namespace UberDeployer.Core.Domain
 
       if (!driveLetterMatch.Success)
       {
-        throw new ArgumentException(string.Format("The path is not an absolute local path, ie. it doesn't start with a drive letter followed by a colon and a backslash. Absolute local path: '{0}'.", absoluteLocalPath), "absoluteLocalPath");
+        throw new ArgumentException(
+          string.Format(
+            "The path is not an absolute local path, ie. it doesn't start with a drive letter followed by a colon and a backslash. Absolute local path: '{0}'.",
+            absoluteLocalPath),
+          "absoluteLocalPath");
       }
 
       string driveLetter = driveLetterMatch.Groups["DriveLetter"].Value;
@@ -262,7 +276,7 @@ namespace UberDeployer.Core.Domain
         new DbProjectConfiguration(
           projectName,
           databaseServerId);
-    }    
+    }
 
     public IisAppPoolInfo GetAppPoolInfo(string appPoolId)
     {
@@ -342,19 +356,28 @@ namespace UberDeployer.Core.Domain
 
     public IEnumerable<string> WebServerMachineNames
     {
-      get { return _webServerMachines.AsReadOnly(); }
+      get
+      {
+        return _webServerMachines.AsReadOnly();
+      }
     }
 
     public IEnumerable<TerminalServerMachine> TerminalServerMachines { get; private set; }
 
     public IEnumerable<string> SchedulerServerTasksMachineNames
     {
-      get { return _schedulerServerTasksMachineNames.AsReadOnly(); }
+      get
+      {
+        return _schedulerServerTasksMachineNames.AsReadOnly();
+      }
     }
 
     public IEnumerable<string> SchedulerServerBinariesMachineNames
     {
-      get { return _schedulerServerBinariesMachineNames.AsReadOnly(); }
+      get
+      {
+        return _schedulerServerBinariesMachineNames.AsReadOnly();
+      }
     }
 
     public string NtServicesBaseDirPath { get; private set; }
@@ -371,38 +394,58 @@ namespace UberDeployer.Core.Domain
 
     public IEnumerable<EnvironmentUser> EnvironmentUsers
     {
-      get { return _environmentUsersByIdDict.Values; }
+      get
+      {
+        return _environmentUsersByIdDict.Values;
+      }
     }
 
     public IEnumerable<IisAppPoolInfo> AppPoolInfos
     {
-      get { return _appPoolInfosByNameDict.Values; }
+      get
+      {
+        return _appPoolInfosByNameDict.Values;
+      }
     }
 
     public IEnumerable<DatabaseServer> DatabaseServers
     {
-      get { return _databaseServersByIdDict.Values; }
+      get
+      {
+        return _databaseServersByIdDict.Values;
+      }
     }
 
     public IEnumerable<ProjectToFailoverClusterGroupMapping> ProjectToFailoverClusterGroupMappings
     {
-      get { return _projectToFailoverClusterGroupMappingsDict.Values; }
+      get
+      {
+        return _projectToFailoverClusterGroupMappingsDict.Values;
+      }
     }
 
     public IEnumerable<WebAppProjectConfigurationOverride> WebAppProjectConfigurationOverrides
     {
-      get { return _webAppProjectConfigurationOverridesDict.Values; }
+      get
+      {
+        return _webAppProjectConfigurationOverridesDict.Values;
+      }
     }
 
     public IEnumerable<DbProjectConfigurationOverride> DbProjectConfigurationOverrides
     {
-      get { return _dbProjectConfigurationOverridesDict.Values; }
+      get
+      {
+        return _dbProjectConfigurationOverridesDict.Values;
+      }
     }
 
     public IEnumerable<CustomEnvMachine> CustomEnvMachines
     {
-      get { return _customEnvMachinesDict.Values; }
+      get
+      {
+        return _customEnvMachinesDict.Values;
+      }
     }
   }
 }
- 
