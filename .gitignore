@@ -197,3 +197,10 @@ Src/UberDeployer.sln.DotSettings
 Src/UberDeployer.sln.ide/graph/UberDeployer.sln.ide
 UberDeployer.sln — skrót.lnk
 Src/packages/
+
+# css files generated from less
+Src/UberDeployer.WebApp/Static/css/*.css
+Src/UberDeployer.WebApp/Static/css/*.css.map
+Src/UberDeployer.WebApp/Static/plugins/bootstrap/css/*.css
+Src/UberDeployer.WebApp/Static/plugins/fontawesome/css/*.css
+Src/UberDeployer.WebApp/Static/plugins/toastr/*.css
