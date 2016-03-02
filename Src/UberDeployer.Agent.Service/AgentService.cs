@@ -248,9 +248,16 @@ namespace UberDeployer.Agent.Service
           EventHandler<DiagnosticMessageEventArgs> deploymentPipelineDiagnosticMessageAction =
             (eventSender, tmpArgs) => LogMessage(uniqueClientId, tmpArgs.MessageType, tmpArgs.Message);
 
+          EventHandler<DiagnosticMessageGroupEventArgs> deploymentPipelineDiagnosticMessageGroupOpened =
+            (eventSender, tmpArgs) => OpenLogGroup(uniqueClientId, tmpArgs.GroupName);
+
+          EventHandler deploymentPipelineDiagnosticMessageGroupClosed =
+              (eventSender, tmpArgs) => CloseLogGroup(uniqueClientId);
           try
           {
-            _envDeploymentPipeline.DiagnosticMessagePosted += deploymentPipelineDiagnosticMessageAction;
+            _envDeploymentPipeline.DiagnosticMessagePosted += deploymentPipelineDiagnosticMessageAction;            
+            _envDeploymentPipeline.DiagnosticMessageGroupOpened += deploymentPipelineDiagnosticMessageGroupOpened;            
+            _envDeploymentPipeline.DiagnosticMessageGroupClosed += deploymentPipelineDiagnosticMessageGroupClosed;
 
             _envDeploymentPipeline.StartDeployment(targetEnvironment, projectsToDeploy, new DeploymentContext(requesterIdentity));
           }
@@ -877,6 +884,20 @@ namespace UberDeployer.Agent.Service
       }
 
       _diagnosticMessagesLogger.LogMessage(uniqueClientId, messageType, message);
+    }
+
+    private void OpenLogGroup(Guid uniqueClientId, string groupId)
+    {
+      _log.InfoIfEnabled(() => string.Format("Open log group [{0}] for client [{1}]", groupId, uniqueClientId));
+
+      _diagnosticMessagesLogger.OpenLogGroup(uniqueClientId, groupId);
+    }
+
+    private void CloseLogGroup(Guid uniqueClientId)
+    {
+      _log.DebugIfEnabled(() => string.Format("Close log group for client [{0}]", uniqueClientId));
+
+      _diagnosticMessagesLogger.CloseLogGroup(uniqueClientId);
     }
   }
 }
