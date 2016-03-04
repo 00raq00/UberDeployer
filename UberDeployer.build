@@ -23,7 +23,7 @@
     <delete dir="bin\UberDeployer.WebApp" />
     <exec program="${msbuild.path}" failonerror="true">
       <arg value="Src/UberDeployer.WebApp/UberDeployer.WebApp.csproj" />
-      <arg value="/p:configuration=release" />
+      <arg value="/p:configuration=release" />      
       <arg value="/t:resolvereferences" />
       <arg value="/t:_copywebapplication" />
       <arg value="/t:transformwebconfig" />      
@@ -38,7 +38,7 @@
     <exec program="${msbuild.path}">
       <arg value="src/UberDeployer.sln" />
       <arg value="/p:Configuration=Release" />
-      <arg value="/p:DebugType=none" />
+      <arg value="/p:DebugType=pdbonly" />
       <arg value="/p:AllowUnsafeBlocks=true" />
     </exec>    
         
