@@ -20,14 +20,18 @@
   </target>
   
   <target name="publishWebApplication">
+    <delete dir="bin\UberDeployer.WebApp" />
     <exec program="${msbuild.path}" failonerror="true">
       <arg value="Src/UberDeployer.WebApp/UberDeployer.WebApp.csproj" />
       <arg value="/p:configuration=release" />
       <arg value="/t:resolvereferences" />
       <arg value="/t:_copywebapplication" />
       <arg value="/t:transformwebconfig" />      
+      <arg value="/p:outdir=..\..\bin\temp\" />
       <arg value="/p:webprojectoutputdir=..\..\bin\UberDeployer.WebApp" />
     </exec>
+    
+    <delete dir="bin\temp" />
   </target>
 
   <target name="build">
