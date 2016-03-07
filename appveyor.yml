@@ -1,0 +1,12 @@
+version: 1.0.{build}
+os: Visual Studio 2015
+configuration: Release
+before_build:
+  - nuget restore Src\UberDeployer.sln
+build:
+  project: Src\UberDeployer.sln
+  verbosity: minimal
+artifacts:
+  - path: bin
+    name: UberDeployer
+    type: zip
