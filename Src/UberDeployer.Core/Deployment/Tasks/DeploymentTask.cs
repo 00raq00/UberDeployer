@@ -29,7 +29,7 @@ namespace UberDeployer.Core.Deployment.Tasks
       _subTasks = new List<DeploymentTaskBase>();
     }
 
-    public void EnableDependenciesDeployment(IObjectFactory objectFactory)
+    public virtual void EnableDependenciesDeployment(IObjectFactory objectFactory)
     {
       if (IsPrepared)
       {

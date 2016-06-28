@@ -99,6 +99,12 @@ namespace UberDeployer.Core.Deployment.Tasks
       }
     }
 
+    public override void EnableDependenciesDeployment(IObjectFactory objectFactory)
+    {
+      // For this task we don't want to deploy dependent projects.
+      return;
+    }
+
     private static string PreparePackageDirPath(string packageDirPath)
     {
       if (Directory.Exists(packageDirPath))
